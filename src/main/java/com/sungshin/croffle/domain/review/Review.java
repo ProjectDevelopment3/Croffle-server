@@ -18,12 +18,8 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user_id;
 
-    @ManyToOne
-    @JoinColumn(name = "cafe_id")
     private Cafe cafe_id;
 
     private int rate;
