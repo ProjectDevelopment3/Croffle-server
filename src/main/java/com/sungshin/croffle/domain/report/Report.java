@@ -29,7 +29,6 @@ public class Report {
 
     @Builder
     public Report(Long id, Long user_id, Long cafe_id, String content, String category) {
-        this.id = id;
         this.user_id = user_id;
         this.cafe_id = cafe_id;
         this.content = content;
