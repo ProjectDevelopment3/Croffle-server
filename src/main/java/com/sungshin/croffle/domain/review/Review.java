@@ -1,6 +1,7 @@
 package com.sungshin.croffle.domain.review;
 
 
+import com.sungshin.croffle.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,14 +14,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 
-public class Review {
+public class Review extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private User user_id;
+    private Long user_id;
 
-    private Cafe cafe_id;
+    private Long cafe_id;
 
     private int rate;
 
@@ -32,7 +33,7 @@ public class Review {
     private LocalDateTime createdate;
 
     @Builder
-    public Review(Long id, User user_id, Cafe cafe_id, int rate, String content){
+    public Review(Long id, Long user_id, Long cafe_id, int rate, String content){
         this.id = id;
         this.user_id = user_id;
         this.cafe_id = cafe_id;
