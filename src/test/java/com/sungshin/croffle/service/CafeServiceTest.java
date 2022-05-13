@@ -49,4 +49,18 @@ public class CafeServiceTest {
         assertThat(likedCafeid).isEqualTo(likedCafe.getId());
 
     }
+
+    @Test
+    public void 카페스크랩삭제() throws Exception{
+        // given
+        Cafe cafe = cafeRepository.findByName("테스트카페").get();
+        Long likedCafeid = cafeService.likedCafeAdd(cafe.getId());
+
+        //when
+        cafeService.likedCafeDelete(cafe.getId(), 1L);
+
+        // then
+        Optional<LikedCafe> likedCafe = likedCafeRepository.findByCafeIdAndUserId(cafe.getId(), 1L);
+        assertThat(likedCafe.isEmpty()).isEqualTo(true);
+    }
 }
