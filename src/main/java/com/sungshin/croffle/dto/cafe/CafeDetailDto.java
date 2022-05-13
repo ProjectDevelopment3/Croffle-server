@@ -11,7 +11,6 @@ public class CafeDetailDto {
     private String telephone;
     private String hours;
     private String site;
-//    private
 
     public CafeDetailDto(Cafe cafe) {
         this.id = cafe.getId();
