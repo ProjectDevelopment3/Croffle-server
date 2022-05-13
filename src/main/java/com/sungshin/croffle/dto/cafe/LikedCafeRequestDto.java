@@ -3,10 +3,10 @@ package com.sungshin.croffle.dto.cafe;
 import lombok.Getter;
 
 @Getter
-public class LikedCafeAddRequestDto {
+public class LikedCafeRequestDto {
     private Long cafe;
 
-    public LikedCafeAddRequestDto(Long cafe) {
+    public LikedCafeRequestDto(Long cafe) {
         this.cafe = cafe;
     }
 }
