@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,17 @@ public class CafeService {
         return new CafeDetailDto(
                 cafeRepository.findById(cafe_id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카페 id입니다.")));
+    }
+
+    public List<CafeListDto> findLikedCafes(Long user_id) {
+        List<LikedCafe> likedCafes = likedCafeRepository.findByUserId(user_id);
+        List<Cafe> cafeList = new ArrayList<>();
+        for (int i = 0; i < likedCafes.size(); i++) {
+            Long cafe_id = likedCafes.get(i).getCafeId();
+            cafeList.add(cafeRepository.findById(cafe_id)
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카페 id 입니다." + cafe_id)));
+        }
+        return cafeList.stream().map(CafeListDto::new).collect(Collectors.toList());
     }
 
     @Transactional

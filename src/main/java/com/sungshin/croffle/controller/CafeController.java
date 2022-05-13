@@ -35,6 +35,17 @@ public class CafeController {
     }
 
     // 스크랩 기능
+    @GetMapping("/likes")
+    public Response likedcafesearch() {
+        // 로그인 쿠키에서 user id 얻어오기
+        Long user_id = 1L;
+        return Response.builder()
+                .code("200")
+                .messages("카페 스크랩 리스트 조회에 성공하였습니다.")
+                .data(Collections.singletonList(cafeService.findLikedCafes(user_id)))
+                .build();
+    }
+
     @PostMapping("/like")
     public Response likedcafeAdd(@RequestBody LikedCafeRequestDto cafeAddRequestDto) {
         return Response.builder()

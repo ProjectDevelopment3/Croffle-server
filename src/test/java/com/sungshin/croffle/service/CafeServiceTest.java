@@ -63,4 +63,11 @@ public class CafeServiceTest {
         Optional<LikedCafe> likedCafe = likedCafeRepository.findByCafeIdAndUserId(cafe.getId(), 1L);
         assertThat(likedCafe.isEmpty()).isEqualTo(true);
     }
+
+    @Test
+    public void 카페스크랩조회() throws Exception {
+        // given
+        Cafe cafe = cafeRepository.findByName("테스트카페").get();
+        Long likedCafeid = cafeService.likedCafeAdd(cafe.getId());
+    }
 }
