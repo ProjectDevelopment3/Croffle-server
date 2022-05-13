@@ -4,12 +4,14 @@ import com.sungshin.croffle.domain.Cafe;
 import com.sungshin.croffle.domain.LikedCafe;
 import com.sungshin.croffle.domain.jpa.CafeRepository;
 import com.sungshin.croffle.domain.jpa.LikedCafeRepository;
+import com.sungshin.croffle.dto.cafe.CafeListDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -69,5 +71,11 @@ public class CafeServiceTest {
         // given
         Cafe cafe = cafeRepository.findByName("테스트카페").get();
         Long likedCafeid = cafeService.likedCafeAdd(cafe.getId());
+
+        // when
+        List<CafeListDto> likedCafes = cafeService.findLikedCafes(1L);
+
+        // then
+        assertThat(likedCafes.get(0).getName()).isEqualTo("테스트카페");
     }
 }
