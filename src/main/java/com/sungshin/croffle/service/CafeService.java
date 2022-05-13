@@ -1,7 +1,9 @@
 package com.sungshin.croffle.service;
 
 import com.sungshin.croffle.domain.Cafe;
+import com.sungshin.croffle.domain.LikedCafe;
 import com.sungshin.croffle.domain.jpa.CafeRepository;
+import com.sungshin.croffle.domain.jpa.LikedCafeRepository;
 import com.sungshin.croffle.dto.cafe.CafeDetailDto;
 import com.sungshin.croffle.dto.cafe.CafeListDto;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 public class CafeService {
 
     private final CafeRepository cafeRepository;
+    private final LikedCafeRepository likedCafeRepository;
 
     public List<CafeListDto> findCafes() {
         List<Cafe> cafeList = cafeRepository.findAll();
@@ -25,5 +28,10 @@ public class CafeService {
         return new CafeDetailDto(
                 cafeRepository.findById(cafe_id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카페 id입니다.")));
+    }
+
+    public Long likedCafeAdd(Long cafe_id) {
+        Long user_id = 1L; // user login 연동 후 변경
+        return likedCafeRepository.save(new LikedCafe(cafe_id, user_id)).getId();
     }
 }

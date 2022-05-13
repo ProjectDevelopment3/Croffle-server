@@ -16,7 +16,7 @@ public class LikedCafe {
     @Column(nullable = false)
     private Long cafe_id;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private Long user_id;
 
     @Builder
