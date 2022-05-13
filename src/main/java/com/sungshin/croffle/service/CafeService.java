@@ -36,7 +36,7 @@ public class CafeService {
     }
 
     public void likedCafeDelete(Long cafe_id, Long user_id) {
-        LikedCafe entity = likedCafeRepository.findByCafe_idAndUser_id(cafe_id, user_id)
+        LikedCafe entity = likedCafeRepository.findByCafeIdAndUserId(cafe_id, user_id)
                 .orElseThrow(() -> new IllegalArgumentException(cafe_id + "가 스크랩에 존재하지 않습니다."));
         likedCafeRepository.delete(entity);
     }
