@@ -8,6 +8,7 @@ import com.sungshin.croffle.dto.cafe.CafeDetailDto;
 import com.sungshin.croffle.dto.cafe.CafeListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class CafeService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카페 id입니다.")));
     }
 
+    @Transactional
     public Long likedCafeAdd(Long cafe_id) {
         Long user_id = 1L; // user login 연동 후 변경
         return likedCafeRepository.save(new LikedCafe(cafe_id, user_id)).getId();
