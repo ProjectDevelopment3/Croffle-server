@@ -1,6 +1,6 @@
 package com.sungshin.croffle.service;
 
-import com.sungshin.croffle.domain.dto.ReviewDto;
+import com.sungshin.croffle.dto.review.ReviewDto;
 import com.sungshin.croffle.domain.jpa.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

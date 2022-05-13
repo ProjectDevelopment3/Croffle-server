@@ -1,6 +1,5 @@
-package com.sungshin.croffle.domain.dto;
+package com.sungshin.croffle.dto.review;
 
-import com.sungshin.croffle.domain.BaseTimeEntity;
 import com.sungshin.croffle.domain.review.Review;
 import lombok.Builder;
 
