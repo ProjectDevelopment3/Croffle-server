@@ -2,9 +2,11 @@ package com.sungshin.croffle.dto.review;
 
 import com.sungshin.croffle.domain.review.Review;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class ReviewDto {
     private Long user_id;
     private Long cafe_id;
