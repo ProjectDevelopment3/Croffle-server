@@ -3,8 +3,6 @@ package com.sungshin.croffle.dto.board;
 import com.sungshin.croffle.domain.board.BoardCategory;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.apache.tomcat.jni.Local;
 
 import java.time.LocalDateTime;
 

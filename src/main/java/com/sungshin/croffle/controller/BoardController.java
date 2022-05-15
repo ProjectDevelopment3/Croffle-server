@@ -18,7 +18,7 @@ public class BoardController {
     private final BoardService boardService;
 
     //게시물 작성
-    @PostMapping("/board/write")
+    @PostMapping("/board")
     public Response write(@RequestBody BoardDto boardDto) {
         boardService.savePost(boardDto);
         return Response.builder()
@@ -46,7 +46,7 @@ public class BoardController {
     //게시물 수정
     @PutMapping("/board/{id}")
     public Response update(@PathVariable Long id, @RequestBody BoardUpdateDto boardUpdateDto) {
-        boardService.update(id, boardUpdateDto);
+        boardService.updatePost(id, boardUpdateDto);
         return Response.builder()
                 .code("201")
                 .messages("게시글 수정이 완료 되었습니다.")
@@ -54,9 +54,9 @@ public class BoardController {
     }
 
     //게시물 삭제
-    @DeleteMapping("/board/del/{id}")
+    @DeleteMapping("/board/{id}")
     public Response delete(@PathVariable Long id) {
-        boardService.delete(id);
+        boardService.deletePost(id);
         return Response.builder()
                 .code("200")
                 .messages("게시글 삭제가 완료 되었습니다.")

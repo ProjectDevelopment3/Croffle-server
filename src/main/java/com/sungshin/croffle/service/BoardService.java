@@ -23,7 +23,7 @@ public class BoardService {
         return boardRepository.save(boardDto.toEntity()).getId();
     }
 
-    @Transactional
+
     public BoardDto getPost(Long id) {
         Board board = boardRepository.findById(id).get();
 
@@ -41,22 +41,20 @@ public class BoardService {
 
     }
 
-    @Transactional
+
     public List<BoardListDto> getAllPost() {
         return boardRepository.findAllByOrderByIdDesc().stream()
                 .map(BoardListDto::new)
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public Long update(Long id, BoardUpdateDto boardUpdateDto) {
+    public Long updatePost(Long id, BoardUpdateDto boardUpdateDto) {
         Board post = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
         post.update(boardUpdateDto.getTitle(), boardUpdateDto.getContent(), boardUpdateDto.getBoardCategory(), boardUpdateDto.getModifiedDate());
         return id;
     }
 
-    @Transactional
-    public void delete(Long id) {
+    public void deletePost(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다. id =" + id));
         boardRepository.delete(board);
