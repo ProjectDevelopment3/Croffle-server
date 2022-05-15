@@ -34,6 +34,18 @@ public class CafeController {
                 .build();
     }
 
+    // 카페 추천 기능
+    @GetMapping("/cafe/recommend")
+    public Response recommendCafe(@RequestParam String filter) {
+        if (!filter.equals("liked") && !filter.equals("review")) {
+        }
+        return Response.builder()
+                .code("200")
+                .messages("카페 추천 성공")
+                .data(Collections.singletonList(cafeService.cafeRecommend(filter)))
+                .build();
+    }
+
     // 스크랩 기능
     @PostMapping("/like")
     public Response likedcafeAdd(@RequestBody LikedCafeRequestDto cafeAddRequestDto) {

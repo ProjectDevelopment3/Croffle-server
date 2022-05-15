@@ -6,6 +6,8 @@ import com.sungshin.croffle.domain.jpa.CafeRepository;
 import com.sungshin.croffle.domain.jpa.LikedCafeRepository;
 import com.sungshin.croffle.dto.cafe.CafeDetailDto;
 import com.sungshin.croffle.dto.cafe.CafeListDto;
+import com.sungshin.croffle.dto.cafe.CafeRecommendDto;
+import com.sungshin.croffle.dto.cafe.CafeRecommendWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,18 @@ public class CafeService {
         return new CafeDetailDto(
                 cafeRepository.findById(cafe_id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카페 id입니다.")));
+    }
+
+    public List<CafeRecommendWrapper> cafeRecommend(String filter) {
+        List<CafeRecommendWrapper> list = null;
+        if (filter.equals("review")) {
+            list = cafeRepository.cafeRecommendOrderByReview();
+            System.out.println(list);
+        } else if (filter.equals("liked")) {
+            list = cafeRepository.cafeRecommendOrderByLiked();
+            System.out.println(list);
+        }
+        return list;
     }
 
     @Transactional

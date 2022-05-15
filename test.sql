@@ -1,0 +1,1 @@
+select * from (select c1.id, c1.addr, c1.name, count(*) liked_count from cafe c1 inner join liked_cafe lc where c1.id = lc.cafe_id group by lc.cafe_id) c inner join (select cafe_id, count(*) review_count, sum(rate) / count(*) rate from review group by cafe_id) r where c.id = r.cafe_id;
