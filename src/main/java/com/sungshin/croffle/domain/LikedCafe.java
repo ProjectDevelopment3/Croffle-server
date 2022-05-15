@@ -14,14 +14,14 @@ public class LikedCafe {
     private Long id;
 
     @Column(nullable = false)
-    private Long cafe_id;
+    private Long cafeId;
 
 //    @Column(nullable = false)
-    private Long user_id;
+    private Long userId;
 
     @Builder
-    public LikedCafe(Long cafe_id, Long user_id) {
-        this.cafe_id = cafe_id;
-        this.user_id = user_id;
+    public LikedCafe(Long cafeId, Long user_id) {
+        this.cafeId = cafeId;
+        this.userId = user_id;
     }
 }

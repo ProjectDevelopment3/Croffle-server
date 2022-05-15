@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,9 +32,27 @@ public class CafeService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카페 id입니다.")));
     }
 
+    public List<CafeListDto> findLikedCafes(Long user_id) {
+        List<LikedCafe> likedCafes = likedCafeRepository.findByUserId(user_id);
+        List<Cafe> cafeList = new ArrayList<>();
+        for (int i = 0; i < likedCafes.size(); i++) {
+            Long cafe_id = likedCafes.get(i).getCafeId();
+            cafeList.add(cafeRepository.findById(cafe_id)
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카페 id 입니다." + cafe_id)));
+        }
+        return cafeList.stream().map(CafeListDto::new).collect(Collectors.toList());
+    }
+
     @Transactional
     public Long likedCafeAdd(Long cafe_id) {
         Long user_id = 1L; // user login 연동 후 변경
         return likedCafeRepository.save(new LikedCafe(cafe_id, user_id)).getId();
+    }
+
+    @Transactional
+    public void likedCafeDelete(Long cafe_id, Long user_id) {
+        LikedCafe entity = likedCafeRepository.findByCafeIdAndUserId(cafe_id, user_id)
+                .orElseThrow(() -> new IllegalArgumentException(cafe_id + "가 스크랩에 존재하지 않습니다."));
+        likedCafeRepository.delete(entity);
     }
 }
