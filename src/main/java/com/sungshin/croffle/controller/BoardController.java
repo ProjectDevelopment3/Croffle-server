@@ -33,7 +33,7 @@ public class BoardController {
         return Response.builder()
                 .code("200")
                 .messages("게시글 조회가 완료 되었습니다.")
-                .boardDto(boardService.getPost(id))
+                .data(Collections.singletonList(boardService.getPost(id)))
                 .build();
     }
 
@@ -54,7 +54,7 @@ public class BoardController {
         return Response.builder()
                 .code("201")
                 .messages("게시글 수정이 완료 되었습니다.")
-                .boardDto(boardService.getPost(id))
+                .data(Collections.singletonList(boardService.getPost(id)))
                 .build();
     }
 

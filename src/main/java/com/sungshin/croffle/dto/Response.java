@@ -13,13 +13,11 @@ public class Response {
     private String code;
     private String messages;
     private List<Object> data;
-    private BoardDto boardDto;
 
     @Builder
-    public Response(String code, String messages, List<Object> data, BoardDto boardDto) {
+    public Response(String code, String messages, List<Object> data) {
         this.code = code;
         this.messages = messages;
         this.data = data;
-        this.boardDto = boardDto;
     }
 }
