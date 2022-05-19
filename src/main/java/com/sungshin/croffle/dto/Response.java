@@ -1,6 +1,5 @@
 package com.sungshin.croffle.dto;
 
-import com.sungshin.croffle.dto.board.BoardDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
