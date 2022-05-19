@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 public class BoardDto {
     private Long id;
-    private Long user_id;
+    private Long userId;
     private String title;
     private String content;
     private BoardCategory boardCategory;
@@ -22,7 +22,7 @@ public class BoardDto {
     public Board toEntity() {
         Board build = Board.builder()
                 .id(id)
-                .user_id(user_id)
+                .user_id(userId)
                 .title(title)
                 .content(content)
                 .boardCategory(boardCategory)
@@ -34,7 +34,7 @@ public class BoardDto {
     @Builder
     public BoardDto(Long id, Long user_id, String title, String content, BoardCategory boardCategory, LocalDateTime createdDate, LocalDateTime modifiedDateDate){
         this.id = id;
-        this.user_id = user_id;
+        this.userId = user_id;
         this.title = title;
         this.content = content;
         this.boardCategory = boardCategory;

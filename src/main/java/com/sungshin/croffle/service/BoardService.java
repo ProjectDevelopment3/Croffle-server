@@ -29,7 +29,7 @@ public class BoardService {
 
         BoardDto boardDto = BoardDto.builder()
                 .id(board.getId())
-                .user_id(board.getUser_id())
+                .user_id(board.getUserId())
                 .title(board.getTitle())
                 .content(board.getContent())
                 .boardCategory(board.getBoardCategory())

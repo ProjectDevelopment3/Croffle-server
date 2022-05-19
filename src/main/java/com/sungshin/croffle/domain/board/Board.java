@@ -19,7 +19,7 @@ public class Board extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long user_id;
+    private Long userId;
 
     @Column(length = 30, nullable = false)
     private String title;
@@ -39,7 +39,7 @@ public class Board extends BaseTimeEntity {
     @Builder
     public Board(Long id, Long user_id, String title, String content,BoardCategory boardCategory){
         this.id = id;
-        this.user_id = user_id;
+        this.userId = user_id;
         this.title = title;
         this.content = content;
         this.boardCategory = boardCategory;
