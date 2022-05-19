@@ -15,7 +15,7 @@ public class Menu {
     private Long id;
 
     @Column(nullable = false)
-    private Long cafe_id;
+    private Long cafeId;
 
     @Column(length = 40, nullable = false)
     private String name;
@@ -27,7 +27,7 @@ public class Menu {
 
     @Builder
     public Menu(Long cafe_id, String name, String price, int checked){
-        this.cafe_id = cafe_id;
+        this.cafeId = cafe_id;
         this.name = name;
         this.price = price;
         this.checked = checked;

@@ -15,9 +15,9 @@ public class Report {
     private Long id;
 
     //네이버 OAuth 값 가져올 수 있도록...??
-    private Long user_id;
+    private Long userId;
 
-    private Long cafe_id;
+    private Long cafeId;
 
     @Column(length = 100, nullable = false)
     private String content;
@@ -28,8 +28,8 @@ public class Report {
 
     @Builder
     public Report(Long user_id, Long cafe_id, String content, String category) {
-        this.user_id = user_id;
-        this.cafe_id = cafe_id;
+        this.userId = user_id;
+        this.cafeId = cafe_id;
         this.content = content;
         this.category = category;
     }

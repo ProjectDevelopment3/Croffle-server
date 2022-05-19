@@ -22,7 +22,7 @@ public class ReportController {
         reportService.saveInfo(reportDto);
         return Response.builder()
                 .code("201")
-                .messages("제보하기에 성공하였습니다.")
+                .messages("오류 제보하기에 성공하였습니다.")
                 .build();
     }
 
