@@ -67,10 +67,10 @@ public class CafeController {
                 .build();
     }
 
-    @PostMapping("/like/del")
-    public Response likecafeDelete(@RequestBody LikedCafeRequestDto cafeDelRequestDto) {
+    @DeleteMapping("/like/{id}")
+    public Response likecafeDelete(@RequestParam Long id) {
         // user id 정보 service 에 넘겨주기, 해당 user 가 가진 데이터가 맞는지 확인 후 삭제
-        cafeService.likedCafeDelete(cafeDelRequestDto.getCafe(), 1L);
+        cafeService.likedCafeDelete(id, 1L);
         return Response.builder()
                 .code("200")
                 .messages("카페 스크랩 삭제에 성공하였습니다.")
