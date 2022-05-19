@@ -29,8 +29,12 @@ public class BoardController {
 
     //게시글 개별 조회
     @GetMapping("/board/{id}")
-    public BoardDto findById(@PathVariable Long id) {
-        return boardService.getPost(id);
+    public Response findById(@PathVariable Long id) {
+        return Response.builder()
+                .code("200")
+                .messages("게시글 조회가 완료 되었습니다.")
+                .boardDto(boardService.getPost(id))
+                .build();
     }
 
     //게시판 목록 조회
@@ -50,6 +54,7 @@ public class BoardController {
         return Response.builder()
                 .code("201")
                 .messages("게시글 수정이 완료 되었습니다.")
+                .boardDto(boardService.getPost(id))
                 .build();
     }
 
