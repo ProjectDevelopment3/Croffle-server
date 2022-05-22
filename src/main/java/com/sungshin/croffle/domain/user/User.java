@@ -1,4 +1,4 @@
-package com.sungshin.croffle.domain;
+package com.sungshin.croffle.domain.user;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +16,7 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private Long naverId;
+    private String naverId;
 
     @Column(length = 20)
     private String nickname;
@@ -29,21 +29,28 @@ public class User {
     @ColumnDefault("0")
     private int owner;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
     @Builder
-    public User(Long id, Long naverId, String nickname, String phone, String profileUrl, int owner) {
+    public User(Long id, String naverId, String nickname, String phone, String profileUrl, Role role) {
         this.id = id;
         this.naverId = naverId;
         this.nickname = nickname;
         this.phone = phone;
         this.profileUrl = profileUrl;
-        this.owner = owner;
+        this.role = role;
     }
 
-    @Builder
     public User update(String phone, String profileUrl) {
         // oauth 받아온 정보로 업데이트
         this.phone = phone;
         this.profileUrl = profileUrl;
         return this;
+    }
+
+    public String getRoleKey() {
+        return this.role.getKey();
     }
 }

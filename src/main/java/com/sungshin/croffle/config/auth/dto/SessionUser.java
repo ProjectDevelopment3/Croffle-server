@@ -1,5 +1,6 @@
-package com.sungshin.croffle.domain;
+package com.sungshin.croffle.config.auth.dto;
 
+import com.sungshin.croffle.domain.user.User;
 import lombok.Getter;
 
 import java.io.Serializable;
