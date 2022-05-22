@@ -38,4 +38,12 @@ public class User {
         this.profileUrl = profileUrl;
         this.owner = owner;
     }
+
+    @Builder
+    public User update(String nickname, String phone, String profileUrl) {
+        this.nickname = nickname;
+        this.phone = phone;
+        this.profileUrl = profileUrl;
+        return this;
+    }
 }
