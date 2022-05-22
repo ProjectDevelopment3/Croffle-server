@@ -40,8 +40,8 @@ public class User {
     }
 
     @Builder
-    public User update(String nickname, String phone, String profileUrl) {
-        this.nickname = nickname;
+    public User update(String phone, String profileUrl) {
+        // oauth 받아온 정보로 업데이트
         this.phone = phone;
         this.profileUrl = profileUrl;
         return this;
