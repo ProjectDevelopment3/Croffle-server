@@ -1,6 +1,7 @@
 package com.sungshin.croffle.config;
 
 import com.sungshin.croffle.config.auth.CustomOAuth2UserService;
+import com.sungshin.croffle.domain.user.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,10 +16,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
+                    .antMatchers("/board/{id}", "/cafes", "/cafe",
+                        "/cafe/recommend", "/review/list")
+                .permitAll()
+                    .antMatchers("/review", "/report/**", "/likes/**",
+                        "/nickname/**", "/stamps", "/coupons", "/board/**")
+                        .hasRole(Role.USER.name())
+                    .antMatchers("/owner/**").hasRole(Role.OWNER.name())
+                    .antMatchers("/**/**").hasRole(Role.ADMIN.name())
+                    .anyRequest().authenticated()
                 .and()
-                .oauth2Login()
-                .userInfoEndpoint()
-                .userService(oAuth2UserService);
+                    .logout()
+                        .logoutSuccessUrl("/")
+                .and()
+                    .oauth2Login()
+                        .userInfoEndpoint()
+                            .userService(oAuth2UserService);
     }
 }
