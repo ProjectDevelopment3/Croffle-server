@@ -21,6 +21,9 @@ public class User {
     @Column(length = 20)
     private String nickname;
 
+    @Column(length = 10)
+    private String name;
+
     @Column(length = 20)
     private String phone;
 
@@ -34,9 +37,10 @@ public class User {
     private Role role;
 
     @Builder
-    public User(Long id, String naverId, String nickname, String phone, String profileUrl, Role role) {
+    public User(Long id, String naverId, String name, String nickname, String phone, String profileUrl, Role role) {
         this.id = id;
         this.naverId = naverId;
+        this.name = name;
         this.nickname = nickname;
         this.phone = phone;
         this.profileUrl = profileUrl;
