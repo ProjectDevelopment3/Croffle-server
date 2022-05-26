@@ -43,7 +43,7 @@ public class CafeServiceTest {
         Cafe cafe = cafeRepository.findByName("테스트카페").get();
 
         // when
-        Long likedCafeid = cafeService.likedCafeAdd(cafe.getId());
+        Long likedCafeid = cafeService.likedCafeAdd(cafe.getId(), 1L);
 
         // then
         LikedCafe likedCafe = likedCafeRepository.findById(likedCafeid).get();
@@ -56,7 +56,7 @@ public class CafeServiceTest {
     public void 카페스크랩삭제() throws Exception{
         // given
         Cafe cafe = cafeRepository.findByName("테스트카페").get();
-        Long likedCafeid = cafeService.likedCafeAdd(cafe.getId());
+        Long likedCafeid = cafeService.likedCafeAdd(cafe.getId(), 1L);
 
         //when
         cafeService.likedCafeDelete(cafe.getId(), 1L);
@@ -70,7 +70,7 @@ public class CafeServiceTest {
     public void 카페스크랩조회() throws Exception {
         // given
         Cafe cafe = cafeRepository.findByName("테스트카페").get();
-        Long likedCafeid = cafeService.likedCafeAdd(cafe.getId());
+        Long likedCafeid = cafeService.likedCafeAdd(cafe.getId(), 1L);
 
         // when
         List<CafeListDto> likedCafes = cafeService.findLikedCafes(1L);

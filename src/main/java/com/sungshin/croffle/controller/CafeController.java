@@ -1,5 +1,6 @@
 package com.sungshin.croffle.controller;
 
+import com.sungshin.croffle.config.auth.dto.SessionUser;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.cafe.CafeListDto;
 import com.sungshin.croffle.dto.cafe.LikedCafeRequestDto;
@@ -7,6 +8,7 @@ import com.sungshin.croffle.service.CafeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,6 +17,12 @@ import java.util.List;
 public class CafeController {
 
     private final CafeService cafeService;
+    private final HttpSession httpSession;
+
+    private Long findByUserId() {
+        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+        return sessionUser.getId();
+    }
     @GetMapping("/cafes")
     public Response findAllCafe() {
         List<CafeListDto> cafes = cafeService.findCafes();
@@ -50,7 +58,8 @@ public class CafeController {
     @GetMapping("/likes")
     public Response likedcafesearch() {
         // 로그인 쿠키에서 user id 얻어오기
-        Long user_id = 1L;
+//        System.out.println(httpSession.getAttribute("user"));
+        Long user_id = findByUserId();
         return Response.builder()
                 .code("200")
                 .messages("카페 스크랩 리스트 조회에 성공하였습니다.")
@@ -63,14 +72,16 @@ public class CafeController {
         return Response.builder()
                 .code("201")
                 .messages("카페 스크랩 추가에 성공하였습니다.")
-                .data(Collections.singletonList(cafeService.likedCafeAdd(cafeAddRequestDto.getCafe())))
+                .data(Collections.singletonList(
+                        cafeService.likedCafeAdd(
+                                cafeAddRequestDto.getCafe(), findByUserId())))
                 .build();
     }
 
     @DeleteMapping("/like/{id}")
     public Response likecafeDelete(@RequestParam Long id) {
         // user id 정보 service 에 넘겨주기, 해당 user 가 가진 데이터가 맞는지 확인 후 삭제
-        cafeService.likedCafeDelete(id, 1L);
+        cafeService.likedCafeDelete(id, findByUserId());
         return Response.builder()
                 .code("200")
                 .messages("카페 스크랩 삭제에 성공하였습니다.")
