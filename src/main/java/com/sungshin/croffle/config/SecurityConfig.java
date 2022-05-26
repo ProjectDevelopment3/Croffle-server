@@ -20,10 +20,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/cafe/recommend", "/review/list")
                 .permitAll()
                     .antMatchers("/review", "/report/**", "/likes/**",
-                        "/nickname/**", "/stamps", "/coupons", "/board/**")
+                        "/nickname/**", "/stamps", "/coupons", "/board/**", "/swagger-ui/**/**", "/v3/api-docs/**")
                         .hasRole(Role.USER.name())
                     .antMatchers("/owner/**").hasRole(Role.OWNER.name())
-                    .antMatchers("/**/**").hasRole(Role.ADMIN.name())
+                    .antMatchers("/**/**", "/swagger-ui/**/**", "/v3/api-docs/**").hasRole(Role.ADMIN.name())
                     .anyRequest().authenticated()
                 .and()
                     .logout()
