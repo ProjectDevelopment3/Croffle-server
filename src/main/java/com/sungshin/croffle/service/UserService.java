@@ -2,7 +2,6 @@ package com.sungshin.croffle.service;
 
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 
 @Service

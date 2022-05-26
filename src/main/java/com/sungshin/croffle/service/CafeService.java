@@ -6,7 +6,6 @@ import com.sungshin.croffle.domain.jpa.CafeRepository;
 import com.sungshin.croffle.domain.jpa.LikedCafeRepository;
 import com.sungshin.croffle.dto.cafe.CafeDetailDto;
 import com.sungshin.croffle.dto.cafe.CafeListDto;
-import com.sungshin.croffle.dto.cafe.CafeRecommendDto;
 import com.sungshin.croffle.dto.cafe.CafeRecommendWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
