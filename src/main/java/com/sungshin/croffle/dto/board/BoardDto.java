@@ -30,7 +30,6 @@ public class BoardDto {
         return build;
     }
 
-
     @Builder
     public BoardDto(Long id, Long user_id, String title, String content, BoardCategory boardCategory, LocalDateTime createdDate, LocalDateTime modifiedDateDate){
         this.id = id;
@@ -42,8 +41,17 @@ public class BoardDto {
         this.modifiedDate = modifiedDateDate;
     }
 
+    public BoardDto(Board board) {
+        this.id = board.getId();
+        this.userId = board.getUserId();
+        this.title = board.getTitle();
+        this.content = board.getContent();
+        this.boardCategory = board.getBoardCategory();
+        this.createdDate = board.getCreatedDate();
+        this.modifiedDate = board.getModifiedDate();
+    }
 
-
-
-
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }

@@ -22,21 +22,9 @@ public class BoardService {
         return boardRepository.save(boardDto.toEntity()).getId();
     }
 
-
     public BoardDto getPost(Long id) {
         Board board = boardRepository.findById(id).get();
-
-        BoardDto boardDto = BoardDto.builder()
-                .id(board.getId())
-                .user_id(board.getUserId())
-                .title(board.getTitle())
-                .content(board.getContent())
-                .boardCategory(board.getBoardCategory())
-                .createdDate(board.getCreatedDate())
-                .modifiedDateDate(board.getModifiedDate())
-                .build();
-
-        return boardDto;
+        return new BoardDto(board);
 
     }
 
