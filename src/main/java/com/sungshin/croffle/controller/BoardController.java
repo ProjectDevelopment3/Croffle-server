@@ -1,11 +1,14 @@
 package com.sungshin.croffle.controller;
 
+import com.sungshin.croffle.config.auth.UserPrincipal;
+import com.sungshin.croffle.config.auth.dto.CurrentUser;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.board.BoardDto;
 import com.sungshin.croffle.dto.board.BoardListDto;
 import com.sungshin.croffle.dto.board.BoardUpdateDto;
 import com.sungshin.croffle.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -52,8 +55,15 @@ public class BoardController {
 
     //게시물 수정
     @PutMapping("/board/{id}")
-    public Response<BoardDto> update(@PathVariable Long id, @RequestBody BoardUpdateDto boardUpdateDto) {
-        boardService.updatePost(id, boardUpdateDto);
+    @PreAuthorize("hasRole('USER')")
+    public Response<BoardDto> update(@CurrentUser UserPrincipal userPrincipal,
+                                     @PathVariable Long id, @RequestBody BoardUpdateDto boardUpdateDto) {
+        if (boardService.updatePost(id, boardUpdateDto, userPrincipal.getId()) < 0L) {
+            return Response.<BoardDto>builder()
+                    .code("403")
+                    .messages("수정 권한이 없습니다.")
+                    .build();
+        }
         return Response.<BoardDto>builder()
                 .code("201")
                 .messages("게시글 수정이 완료 되었습니다.")
@@ -63,8 +73,14 @@ public class BoardController {
 
     //게시물 삭제
     @DeleteMapping("/board/{id}")
-    public Response delete(@PathVariable Long id) {
-        boardService.deletePost(id);
+    @PreAuthorize("hasRole('USER')")
+    public Response delete(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal) {
+        if (!boardService.deletePost(id, userPrincipal.getId())) {
+            return Response.builder()
+                    .code("403")
+                    .messages("삭제 권한이 없습니다.")
+                    .build();
+        }
         return Response.builder()
                 .code("200")
                 .messages("게시글 삭제가 완료 되었습니다.")

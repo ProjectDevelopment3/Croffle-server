@@ -20,9 +20,10 @@ public class TokenProvider {
     }
 
     public String createToken(Authentication authentication) {
+        System.out.print("token provider: ");
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-        System.out.println("token provider: user principal: " + userPrincipal);
+        System.out.println("user principal: " + userPrincipal);
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() +
                 appProperties.getAuth().getTokenExpirationMsec());
@@ -36,6 +37,7 @@ public class TokenProvider {
     }
 
     public Long getUserIdFromToken(String token) {
+        System.out.println("getUserIdFromToken");
         Claims claims = Jwts.parser()
                 .setSigningKey(appProperties.getAuth().getTokenSecret())
                 .parseClaimsJws(token)
@@ -44,6 +46,7 @@ public class TokenProvider {
     }
 
     public boolean validateToken(String authToken) {
+        System.out.println("validate Token");
         try {
             Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(authToken);
             return true;

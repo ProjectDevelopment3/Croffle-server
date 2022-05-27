@@ -7,6 +7,7 @@ import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.cafe.*;
 import com.sungshin.croffle.service.CafeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -57,6 +58,7 @@ public class CafeController {
 
     // 스크랩 기능
     @GetMapping("/likes")
+    @PreAuthorize("hasRole('USER')")
     public Response<CafeListDto> likedcafesearch(@CurrentUser UserPrincipal userPrincipal) {
         return Response.<CafeListDto>builder()
                 .code("200")
@@ -66,6 +68,7 @@ public class CafeController {
     }
 
     @PostMapping("/like")
+    @PreAuthorize("hasRole('USER')")
     public Response<Long> likedcafeAdd(@CurrentUser UserPrincipal userPrincipal,
                                        @RequestBody LikedCafeRequestDto cafeAddRequestDto) {
         return Response.<Long>builder()
@@ -78,6 +81,7 @@ public class CafeController {
     }
 
     @DeleteMapping("/like/{id}")
+    @PreAuthorize("hasRole('USER')")
     public Response likecafeDelete(@CurrentUser UserPrincipal userPrincipal,
                                    @RequestParam Long id) {
         // user id 정보 service 에 넘겨주기, 해당 user 가 가진 데이터가 맞는지 확인 후 삭제
