@@ -19,8 +19,9 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 user id 입니다."));
         return UserDto.builder()
-                .id(id)
+                .id(user.getId())
                 .nickname(user.getNickname())
+                .profile(user.getProfileUrl())
                 .build();
     }
 
