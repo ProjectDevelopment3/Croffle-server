@@ -26,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService userDetailsService;
     private final OAuthAuthenticationSuccessHandler oAuthAuthenticationSuccessHandler;
     private final OAuthAuthenticationFailureHandler oAuthAuthenticationFailureHandler;
+//    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
@@ -67,7 +68,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/nickname/**", "/stamps", "/coupons", "/board/**", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs")
                         .hasRole(Role.USER.name())
                     .antMatchers("/owner/**").hasRole(Role.OWNER.name())
-                    .antMatchers("/**/**", "/swagger-ui/**/**", "/v3/api-docs").hasRole(Role.ADMIN.name())
+                    .antMatchers("/review", "/report/**", "/likes/**", "/user/**",
+                            "/nickname/**", "/stamps", "/coupons",
+                            "/board/**", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs",
+                            "/owner/**").hasRole(Role.ADMIN.name())
+
                     .anyRequest().authenticated()
                 .and()
                     .logout()
