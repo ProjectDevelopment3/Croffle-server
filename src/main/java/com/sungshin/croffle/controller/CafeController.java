@@ -1,5 +1,7 @@
 package com.sungshin.croffle.controller;
 
+import com.sungshin.croffle.config.auth.UserPrincipal;
+import com.sungshin.croffle.config.auth.dto.CurrentUser;
 import com.sungshin.croffle.config.auth.dto.SessionUser;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.cafe.*;
@@ -55,31 +57,31 @@ public class CafeController {
 
     // 스크랩 기능
     @GetMapping("/likes")
-    public Response<CafeListDto> likedcafesearch() {
-        // 로그인 쿠키에서 user id 얻어오기
-        Long user_id = findByUserId();
+    public Response<CafeListDto> likedcafesearch(@CurrentUser UserPrincipal userPrincipal) {
         return Response.<CafeListDto>builder()
                 .code("200")
                 .messages("카페 스크랩 리스트 조회에 성공하였습니다.")
-                .data(cafeService.findLikedCafes(user_id))
+                .data(cafeService.findLikedCafes(userPrincipal.getId()))
                 .build();
     }
 
     @PostMapping("/like")
-    public Response<Long> likedcafeAdd(@RequestBody LikedCafeRequestDto cafeAddRequestDto) {
+    public Response<Long> likedcafeAdd(@CurrentUser UserPrincipal userPrincipal,
+                                       @RequestBody LikedCafeRequestDto cafeAddRequestDto) {
         return Response.<Long>builder()
                 .code("201")
                 .messages("카페 스크랩 추가에 성공하였습니다.")
                 .data(Collections.singletonList(
                         cafeService.likedCafeAdd(
-                                cafeAddRequestDto.getCafe(), findByUserId())))
+                                cafeAddRequestDto.getCafe(), userPrincipal.getId())))
                 .build();
     }
 
     @DeleteMapping("/like/{id}")
-    public Response likecafeDelete(@RequestParam Long id) {
+    public Response likecafeDelete(@CurrentUser UserPrincipal userPrincipal,
+                                   @RequestParam Long id) {
         // user id 정보 service 에 넘겨주기, 해당 user 가 가진 데이터가 맞는지 확인 후 삭제
-        cafeService.likedCafeDelete(id, findByUserId());
+        cafeService.likedCafeDelete(id, userPrincipal.getId());
         return Response.builder()
                 .code("200")
                 .messages("카페 스크랩 삭제에 성공하였습니다.")
