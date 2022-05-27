@@ -65,6 +65,7 @@ public class OAuthAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
 
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
         String token = tokenProvider.createToken(authentication);
+        System.out.println(targetUrl);
 
         return UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("token", token)

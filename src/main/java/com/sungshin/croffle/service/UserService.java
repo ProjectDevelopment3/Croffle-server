@@ -46,6 +46,7 @@ public class UserService {
     public UserDto nicknameEdit(String nickname) {
         User user = userRepository.findById(findUserId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 user id 입니다." + findUserId()));
+
         return new UserDto().toDto(user);
     }
 }
