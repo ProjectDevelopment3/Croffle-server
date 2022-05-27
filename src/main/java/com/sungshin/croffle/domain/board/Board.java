@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Entity
-
 public class Board extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
