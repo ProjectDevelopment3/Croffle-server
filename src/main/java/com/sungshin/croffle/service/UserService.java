@@ -1,14 +1,11 @@
 package com.sungshin.croffle.service;
 
-import com.sungshin.croffle.config.auth.dto.SessionUser;
 import com.sungshin.croffle.domain.jpa.UserRepository;
 import com.sungshin.croffle.domain.user.User;
 import com.sungshin.croffle.dto.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpSession;
 
 import java.util.regex.Pattern;
 
@@ -17,12 +14,6 @@ import java.util.regex.Pattern;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final HttpSession httpSession;
-
-    public Long findUserId() {
-        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
-        return sessionUser.getId();
-    }
 
     public UserDto findById(Long id) {
         User user = userRepository.findById(id)

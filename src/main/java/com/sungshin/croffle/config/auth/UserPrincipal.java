@@ -16,21 +16,14 @@ import java.util.Map;
 public class UserPrincipal implements OAuth2User, UserDetails {
     private Long id;
     private String nickname;
-    private String name;
-    private String phone;
-    private String profileUrl;
     private String naverId;
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
-    public UserPrincipal(Long id, String nickname, String name, String phone,
-                         String profileUrl, String naverId,
+    public UserPrincipal(Long id, String nickname, String naverId,
                          Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.nickname = nickname;
-        this.name = name;
-        this.phone = phone;
-        this.profileUrl = profileUrl;
         this.naverId = naverId;
         this.authorities = authorities;
     }
@@ -42,9 +35,6 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         return new UserPrincipal(
                 user.getId(),
                 user.getNickname(),
-                user.getName(),
-                user.getPhone(),
-                user.getProfileUrl(),
                 user.getNaverId(),
                 authorities
         );
@@ -63,7 +53,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return nickname;
     }
 
     @Override
@@ -100,9 +90,6 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         return "UserPrincipal{" +
                 "id=" + id +
                 ", nickname='" + nickname + '\'' +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", profileUrl='" + profileUrl + '\'' +
                 ", naverId='" + naverId + '\'' +
                 ", authorities=" + authorities +
                 ", attributes=" + attributes +

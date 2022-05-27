@@ -49,17 +49,24 @@ public class BoardService {
     }
 
     @Transactional
-    public Long updatePost(Long id, BoardUpdateDto boardUpdateDto) {
+    public Long updatePost(Long id, BoardUpdateDto boardUpdateDto, Long userid) {
         Board post = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
-        post.update(boardUpdateDto.getTitle(), boardUpdateDto.getContent(), boardUpdateDto.getBoardCategory(), boardUpdateDto.getModifiedDate());
-        return id;
+        if (post.getUserId().equals(userid)) {
+            post.update(boardUpdateDto.getTitle(), boardUpdateDto.getContent(), boardUpdateDto.getBoardCategory(), boardUpdateDto.getModifiedDate());
+            return id;
+        }
+        return -1L;
     }
 
     @Transactional
-    public void deletePost(Long id) {
+    public boolean deletePost(Long id, Long userid) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다. id =" + id));
-        boardRepository.delete(board);
+        if (board.getUserId().equals(userid)) {
+            boardRepository.delete(board);
+            return true;
+        }
+        return false;
     }
 
 
