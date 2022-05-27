@@ -1,15 +1,12 @@
 package com.sungshin.croffle.controller;
 
 import com.sungshin.croffle.config.auth.UserPrincipal;
-import com.sungshin.croffle.config.auth.dto.CurrentUser;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.user.NickNameRequestDto;
 import com.sungshin.croffle.dto.user.UserDto;
 import com.sungshin.croffle.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;

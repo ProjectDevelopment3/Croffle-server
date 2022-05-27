@@ -1,11 +1,10 @@
 package com.sungshin.croffle.controller;
 
 import com.sungshin.croffle.config.auth.UserPrincipal;
-import com.sungshin.croffle.config.auth.dto.CurrentUser;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.service.StampService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,8 +17,8 @@ public class StampController {
     private final StampService stampService;
 
     @GetMapping("/stamps")
-    @PreAuthorize("hasRole('USER')")
-    public Response userStampList(@CurrentUser UserPrincipal userPrincipal) {
+    public Response userStampList(Authentication authentication) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         Long userId = userPrincipal.getId();
         return Response.builder()
                 .code("200")

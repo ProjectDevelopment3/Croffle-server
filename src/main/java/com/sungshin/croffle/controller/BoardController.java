@@ -1,14 +1,13 @@
 package com.sungshin.croffle.controller;
 
 import com.sungshin.croffle.config.auth.UserPrincipal;
-import com.sungshin.croffle.config.auth.dto.CurrentUser;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.board.BoardDto;
 import com.sungshin.croffle.dto.board.BoardListDto;
 import com.sungshin.croffle.dto.board.BoardUpdateDto;
 import com.sungshin.croffle.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,9 +22,9 @@ public class BoardController {
 
     //게시물 작성
     @PostMapping("/board")
-    @PreAuthorize("hasRole('USER')")
-    public Response write(@CurrentUser UserPrincipal userPrincipal,
+    public Response write(Authentication authentication,
                           @RequestBody BoardDto boardDto) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         boardDto.setUserId(userPrincipal.getId());
         boardService.savePost(boardDto);
         return Response.builder()
@@ -47,7 +46,7 @@ public class BoardController {
     }
 
     //게시판 목록 조회
-    @GetMapping("/board")
+    @GetMapping("/boards")
     public Response<BoardListDto> postList() {
         return Response.<BoardListDto>builder()
                 .code("200")
@@ -58,9 +57,9 @@ public class BoardController {
 
     //게시물 수정
     @PutMapping("/board/{id}")
-    @PreAuthorize("hasRole('USER')")
-    public Response<BoardDto> update(@CurrentUser UserPrincipal userPrincipal,
+    public Response<BoardDto> update(Authentication authentication,
                                      @PathVariable Long id, @RequestBody BoardUpdateDto boardUpdateDto) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         if (boardService.updatePost(id, boardUpdateDto, userPrincipal.getId()) < 0L) {
             return Response.<BoardDto>builder()
                     .code("403")
@@ -76,8 +75,8 @@ public class BoardController {
 
     //게시물 삭제
     @DeleteMapping("/board/{id}")
-    @PreAuthorize("hasRole('USER')")
-    public Response delete(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal) {
+    public Response delete(@PathVariable Long id, Authentication authentication) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         if (!boardService.deletePost(id, userPrincipal.getId())) {
             return Response.builder()
                     .code("403")
