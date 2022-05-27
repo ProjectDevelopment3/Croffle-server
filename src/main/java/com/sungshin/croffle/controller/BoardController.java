@@ -26,6 +26,7 @@ public class BoardController {
     @PreAuthorize("hasRole('USER')")
     public Response write(@CurrentUser UserPrincipal userPrincipal,
                           @RequestBody BoardDto boardDto) {
+        boardDto.setUserId(userPrincipal.getId());
         boardService.savePost(boardDto);
         return Response.builder()
                 .code("201")

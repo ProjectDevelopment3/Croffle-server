@@ -1,10 +1,13 @@
 package com.sungshin.croffle.controller;
 
+import com.sungshin.croffle.config.auth.UserPrincipal;
+import com.sungshin.croffle.config.auth.dto.CurrentUser;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.report.InfoReportDto;
 import com.sungshin.croffle.dto.report.ReportCafeDto;
 import com.sungshin.croffle.service.ReportService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +19,9 @@ public class ReportController {
     private final ReportService reportService;
 
     @PostMapping("/report/info")
-    public Response info(@RequestBody InfoReportDto reportDto) {
+    @PreAuthorize("hasRole('USER')")
+    public Response info(@CurrentUser UserPrincipal userPrincipal,
+                         @RequestBody InfoReportDto reportDto) {
         reportService.saveInfo(reportDto);
         return Response.builder()
                 .code("201")
@@ -25,7 +30,9 @@ public class ReportController {
     }
 
     @PostMapping("/report/menu")
-    public Response menu(@RequestBody ReportCafeDto reportCafeDto) {
+    @PreAuthorize("hasRole('USER')")
+    public Response menu(@CurrentUser UserPrincipal userPrincipal,
+                         @RequestBody ReportCafeDto reportCafeDto) {
         reportService.saveMenu(reportCafeDto);
         return Response.builder()
                 .code("201")
