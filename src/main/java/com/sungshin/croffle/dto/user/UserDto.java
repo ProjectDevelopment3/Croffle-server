@@ -11,16 +11,19 @@ public class UserDto {
 
     private Long id;
     private String nickname;
+    private String profile;
 
     @Builder
-    public UserDto(Long id, String nickname) {
+    public UserDto(Long id, String nickname, String profile) {
         this.id = id;
         this.nickname = nickname;
+        this.profile = profile;
     }
 
     public UserDto toDto(User user) {
         id = user.getId();
         nickname = user.getNickname();
+        profile = user.getProfileUrl();
         return this;
     }
 }
