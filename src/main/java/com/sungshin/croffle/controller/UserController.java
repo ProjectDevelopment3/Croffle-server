@@ -8,6 +8,8 @@ import com.sungshin.croffle.dto.user.UserDto;
 import com.sungshin.croffle.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -19,8 +21,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/user/me")
-    @PreAuthorize("hasRole('USER')")
-    public Response<UserDto> getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+    public Response<UserDto> getCurrentUser(Authentication authentication) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         System.out.println(userPrincipal);
         return Response.<UserDto>builder()
                 .code("200")
@@ -45,8 +47,8 @@ public class UserController {
     }
 
     @PutMapping("/nickname")
-    @PreAuthorize("hasRole('USER')")
-    public Response nicknameEdit(@CurrentUser UserPrincipal userPrincipal, @RequestBody NickNameRequestDto nicknameDto) {
+    public Response nicknameEdit(Authentication authentication, @RequestBody NickNameRequestDto nicknameDto) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         String changedNickname = userService.nicknameEdit(userPrincipal.getId(), nicknameDto.getNickname()).getNickname();
         if (nicknameDto.getNickname().equals(changedNickname))
             return Response.builder()
