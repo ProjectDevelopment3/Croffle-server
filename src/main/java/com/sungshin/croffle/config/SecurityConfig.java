@@ -62,12 +62,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .authorizeRequests()
                     .antMatchers("/board/{id}", "/cafes", "/cafe",
-                        "/cafe/recommend", "/review/list")
+                        "/cafe/recommend", "/review/list", "/nickname/verify")
                 .permitAll()
                     .antMatchers("/review", "/report/**", "/likes/**", "/user/**",
                         "/nickname/**", "/stamps", "/coupons", "/board/**", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs")
                         .hasRole(Role.USER.name())
-                    .antMatchers("/owner/**").hasRole(Role.OWNER.name())
+                    .antMatchers("/review", "/report/**", "/likes/**", "/user/**",
+                            "/nickname/**", "/stamps", "/coupons", "/board/**", "/owner/**").hasRole(Role.OWNER.name())
                     .antMatchers("/review", "/report/**", "/likes/**", "/user/**",
                             "/nickname/**", "/stamps", "/coupons",
                             "/board/**", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs",
