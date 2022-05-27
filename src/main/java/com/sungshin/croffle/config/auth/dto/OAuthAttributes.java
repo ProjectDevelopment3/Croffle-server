@@ -15,16 +15,18 @@ public class OAuthAttributes {
     private String phone;
     private String profileUrl;
     private String naverId;
+    private String name;
 
     @Builder
     public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey,
-                           String nickname, String phone, String profileUrl, String naverId) {
+                           String nickname, String phone, String profileUrl, String naverId, String name) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.nickname = nickname;
         this.phone = phone;
         this.profileUrl = profileUrl;
         this.naverId = naverId;
+        this.name = name;
     }
 
     public static OAuthAttributes of(String userNameAttributeName, Map<String, Object> attributes) {
@@ -33,12 +35,13 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
-//        System.out.println("attributes.get(response)" + response);
+        System.out.println("attributes.get(response)" + response);
         return OAuthAttributes.builder()
                 .nickname((String) response.get("nickname"))
                 .naverId((String) response.get("id"))
                 .phone((String) response.get("mobile"))
                 .profileUrl((String) response.get("profile_image"))
+                .name((String) response.get("name"))
                 .attributes(response)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -52,6 +55,7 @@ public class OAuthAttributes {
                 .phone(phone)
                 .profileUrl(profileUrl)
                 .role(Role.USER)
+                .name(name)
                 .build();
     }
 
@@ -63,7 +67,8 @@ public class OAuthAttributes {
                 ", nickname='" + nickname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", profileUrl='" + profileUrl + '\'' +
-                ", naverId=" + naverId +
+                ", naverId='" + naverId + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

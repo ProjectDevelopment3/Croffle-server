@@ -1,12 +1,10 @@
 package com.sungshin.croffle.domain;
 
-import com.sungshin.croffle.domain.board.BoardCategory;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor

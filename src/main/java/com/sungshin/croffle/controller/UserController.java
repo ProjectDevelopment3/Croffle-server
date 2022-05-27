@@ -1,19 +1,31 @@
 package com.sungshin.croffle.controller;
 
+import com.sungshin.croffle.config.auth.UserPrincipal;
+import com.sungshin.croffle.config.auth.dto.CurrentUser;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.user.NickNameRequestDto;
+import com.sungshin.croffle.dto.user.UserDto;
 import com.sungshin.croffle.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 
 @RestController
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping("/user/me")
+    public Response<UserDto> getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+        System.out.println(userPrincipal);
+        return Response.<UserDto>builder()
+                .code("200")
+                .messages("사용자 조회가 완료되었습니다.")
+                .data(Collections.singletonList(userService.findById(userPrincipal.getId())))
+                .build();
+    }
 
     @PostMapping("/nickname/verify")
     public Response nicknameCheck(@RequestBody NickNameRequestDto nicknameDto) {

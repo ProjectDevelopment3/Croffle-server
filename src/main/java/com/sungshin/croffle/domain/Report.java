@@ -14,7 +14,6 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //네이버 OAuth 값 가져올 수 있도록...??
     private Long userId;
 
     private Long cafeId;

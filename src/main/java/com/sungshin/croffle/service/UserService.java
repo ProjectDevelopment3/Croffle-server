@@ -5,10 +5,11 @@ import com.sungshin.croffle.domain.jpa.UserRepository;
 import com.sungshin.croffle.domain.user.User;
 import com.sungshin.croffle.dto.user.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-import java.nio.charset.StandardCharsets;
+
 import java.util.regex.Pattern;
 
 @Service
@@ -21,6 +22,15 @@ public class UserService {
     public Long findUserId() {
         SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
         return sessionUser.getId();
+    }
+
+    public UserDto findById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 user id 입니다."));
+        return UserDto.builder()
+                .id(id)
+                .nickname(user.getNickname())
+                .build();
     }
 
     public boolean nicknameVerify(String nickname) {
