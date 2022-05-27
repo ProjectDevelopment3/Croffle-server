@@ -23,7 +23,9 @@ public class BoardController {
 
     //게시물 작성
     @PostMapping("/board")
-    public Response write(@RequestBody BoardDto boardDto) {
+    @PreAuthorize("hasRole('USER')")
+    public Response write(@CurrentUser UserPrincipal userPrincipal,
+                          @RequestBody BoardDto boardDto) {
         boardService.savePost(boardDto);
         return Response.builder()
                 .code("201")
