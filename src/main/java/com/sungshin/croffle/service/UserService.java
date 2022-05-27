@@ -43,9 +43,10 @@ public class UserService {
         return false;
     }
 
-    public UserDto nicknameEdit(String nickname) {
-        User user = userRepository.findById(findUserId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 user id 입니다." + findUserId()));
+    public UserDto nicknameEdit(Long userid, String nickname) {
+        User user = userRepository.findById(userid)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 user id 입니다." + userid));
+        user.nicknameEdit(nickname);
         return new UserDto().toDto(user);
     }
 }

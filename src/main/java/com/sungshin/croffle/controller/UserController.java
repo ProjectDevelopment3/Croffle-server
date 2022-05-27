@@ -7,6 +7,9 @@ import com.sungshin.croffle.dto.user.NickNameRequestDto;
 import com.sungshin.croffle.dto.user.UserDto;
 import com.sungshin.croffle.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -18,6 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/user/me")
+    @PreAuthorize("hasRole('USER')")
     public Response<UserDto> getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
         System.out.println(userPrincipal);
         return Response.<UserDto>builder()
@@ -43,8 +47,9 @@ public class UserController {
     }
 
     @PutMapping("/nickname")
-    public Response nicknameEdit(@RequestBody NickNameRequestDto nicknameDto) {
-        String changedNickname = userService.nicknameEdit(nicknameDto.getNickname()).getNickname();
+    @PreAuthorize("hasRole('USER')")
+    public Response nicknameEdit(@CurrentUser UserPrincipal userPrincipal, @RequestBody NickNameRequestDto nicknameDto) {
+        String changedNickname = userService.nicknameEdit(userPrincipal.getId(), nicknameDto.getNickname()).getNickname();
         if (nicknameDto.getNickname().equals(changedNickname))
             return Response.builder()
                     .code("200")

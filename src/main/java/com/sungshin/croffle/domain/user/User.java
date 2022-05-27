@@ -54,6 +54,11 @@ public class User {
         return this;
     }
 
+    public User nicknameEdit(String nickname) {
+        this.nickname = nickname;
+        return this;
+    }
+
     public String getRoleKey() {
         return this.role.getKey();
     }
