@@ -3,8 +3,10 @@ package com.sungshin.croffle.dto.report;
 import com.sungshin.croffle.domain.Menu;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ReportMenuDto {
 
     private String name;

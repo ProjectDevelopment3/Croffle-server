@@ -3,10 +3,12 @@ package com.sungshin.croffle.dto.report;
 import com.sungshin.croffle.domain.Report;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class InfoReportDto {
     private Long userId;
     private Long cafeId;
@@ -22,8 +24,6 @@ public class InfoReportDto {
                 .category(category)
                 .build();
     }
-
-
 
     @Builder
     public InfoReportDto(Long user_id, Long cafe_id, String content, String category){
