@@ -4,11 +4,13 @@ import com.sungshin.croffle.domain.Cafe;
 import com.sungshin.croffle.domain.Menu;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class ReportCafeDto {
     private String cafeName;
     private String coords;

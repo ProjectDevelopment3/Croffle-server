@@ -2,8 +2,10 @@ package com.sungshin.croffle.dto.cafe;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class CafeRecommendDto {
     private Long id;
     private String name;
