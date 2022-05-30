@@ -5,6 +5,7 @@ import com.sungshin.croffle.domain.jpa.CouponRepository;
 import com.sungshin.croffle.dto.coupon.CouponListResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,6 +19,7 @@ public class CouponService {
         return couponRepository.findCouponList(userId);
     }
 
+    @Transactional
     public Coupon addCoupon(Long userId, Long cafeId) {
         Coupon entity = Coupon.builder()
                 .cafeId(cafeId)
