@@ -8,13 +8,13 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class Response {
+public class Response<T> {
     private String code;
     private String messages;
-    private List<Object> data;
+    private List<T> data;
 
     @Builder
-    public Response(String code, String messages, List<Object> data) {
+    public Response(String code, String messages, List<T> data) {
         this.code = code;
         this.messages = messages;
         this.data = data;

@@ -8,6 +8,7 @@ import com.sungshin.croffle.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,29 +30,31 @@ public class BoardController {
 
     //게시글 개별 조회
     @GetMapping("/board/{id}")
-    public Response findById(@PathVariable Long id) {
-        return Response.builder()
+    public Response<BoardDto> findById(@PathVariable Long id) {
+        List<BoardDto> list = new ArrayList<BoardDto>();
+        list.add(boardService.getPost(id));
+        return Response.<BoardDto>builder()
                 .code("200")
                 .messages("게시글 조회가 완료 되었습니다.")
-                .data(Collections.singletonList(boardService.getPost(id)))
+                .data(list)
                 .build();
     }
 
     //게시판 목록 조회
     @GetMapping("/board")
-    public Response postList() {
-        return Response.builder()
+    public Response<BoardListDto> postList() {
+        return Response.<BoardListDto>builder()
                 .code("200")
                 .messages("게시판 조회가 완료되었습니다.")
-                .data(Collections.singletonList(boardService.getAllPost()))
+                .data(boardService.getAllPost())
                 .build();
     }
 
     //게시물 수정
     @PutMapping("/board/{id}")
-    public Response update(@PathVariable Long id, @RequestBody BoardUpdateDto boardUpdateDto) {
+    public Response<BoardDto> update(@PathVariable Long id, @RequestBody BoardUpdateDto boardUpdateDto) {
         boardService.updatePost(id, boardUpdateDto);
-        return Response.builder()
+        return Response.<BoardDto>builder()
                 .code("201")
                 .messages("게시글 수정이 완료 되었습니다.")
                 .data(Collections.singletonList(boardService.getPost(id)))
