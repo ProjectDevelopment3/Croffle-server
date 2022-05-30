@@ -1,6 +1,7 @@
 package com.sungshin.croffle.service;
 
 import com.sungshin.croffle.domain.Stamp;
+import com.sungshin.croffle.domain.jpa.CouponRepository;
 import com.sungshin.croffle.domain.jpa.StampRepository;
 import com.sungshin.croffle.dto.stamp.StampListDto;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import java.util.List;
 public class StampService {
 
     private final StampRepository stampRepository;
+    private final CouponService couponService;
 
     public List<StampListDto> stampList(Long userId) {
         return stampRepository.findStampAndCafeByUserId(userId);
@@ -26,6 +28,7 @@ public class StampService {
         } else {
             // stamp 개수 초기화, 새로운 coupon 추가
             stampRepository.delete(stamp);
+            couponService.addCoupon(userId, cafeId);
             //coupon repository 에 쿠폰 추가
         }
     }
