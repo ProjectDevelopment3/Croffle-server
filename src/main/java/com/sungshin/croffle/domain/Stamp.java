@@ -31,4 +31,8 @@ public class Stamp {
         this.userId = userId;
         this.stampCnt = stampCnt;
     }
+
+    public void addStampCnt() {
+        stampCnt += 1;
+    }
 }
