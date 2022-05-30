@@ -1,16 +1,13 @@
 package com.sungshin.croffle.controller;
 
 import com.sungshin.croffle.config.auth.UserPrincipal;
-import com.sungshin.croffle.config.auth.dto.CurrentUser;
-import com.sungshin.croffle.config.auth.dto.SessionUser;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.cafe.*;
 import com.sungshin.croffle.service.CafeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,12 +16,7 @@ import java.util.List;
 public class CafeController {
 
     private final CafeService cafeService;
-    private final HttpSession httpSession;
 
-    private Long findByUserId() {
-        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
-        return sessionUser.getId();
-    }
     @GetMapping("/cafes")
     public Response<CafeListDto> findAllCafe() {
         List<CafeListDto> cafes = cafeService.findCafes();
@@ -58,8 +50,8 @@ public class CafeController {
 
     // 스크랩 기능
     @GetMapping("/likes")
-    @PreAuthorize("hasRole('USER')")
-    public Response<CafeListDto> likedcafesearch(@CurrentUser UserPrincipal userPrincipal) {
+    public Response<CafeListDto> likedcafesearch(Authentication authentication) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Response.<CafeListDto>builder()
                 .code("200")
                 .messages("카페 스크랩 리스트 조회에 성공하였습니다.")
@@ -68,9 +60,9 @@ public class CafeController {
     }
 
     @PostMapping("/like")
-    @PreAuthorize("hasRole('USER')")
-    public Response<Long> likedcafeAdd(@CurrentUser UserPrincipal userPrincipal,
+    public Response<Long> likedcafeAdd(Authentication authentication,
                                        @RequestBody LikedCafeRequestDto cafeAddRequestDto) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Response.<Long>builder()
                 .code("201")
                 .messages("카페 스크랩 추가에 성공하였습니다.")
@@ -81,9 +73,9 @@ public class CafeController {
     }
 
     @DeleteMapping("/like/{id}")
-    @PreAuthorize("hasRole('USER')")
-    public Response likecafeDelete(@CurrentUser UserPrincipal userPrincipal,
+    public Response likecafeDelete(Authentication authentication,
                                    @RequestParam Long id) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         // user id 정보 service 에 넘겨주기, 해당 user 가 가진 데이터가 맞는지 확인 후 삭제
         cafeService.likedCafeDelete(id, userPrincipal.getId());
         return Response.builder()
