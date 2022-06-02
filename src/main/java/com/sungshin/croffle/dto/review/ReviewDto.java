@@ -3,10 +3,12 @@ package com.sungshin.croffle.dto.review;
 import com.sungshin.croffle.domain.review.Review;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class ReviewDto {
     private Long user_id;
     private Long cafe_id;

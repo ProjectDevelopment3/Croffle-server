@@ -25,7 +25,7 @@ public class CafeService {
     private final UserRepository userRepository;
 
     public List<CafeListDto> findCafes() {
-        List<Cafe> cafeList = cafeRepository.findAll();
+        List<Cafe> cafeList = cafeRepository.findAllByChecked(true);
         return cafeList.stream().map(CafeListDto::new).collect(Collectors.toList());
     }
 

@@ -19,10 +19,10 @@ public class Coupon {
     private Long userId;
 
     @Column(updatable = false)
-    private String expiredDate;
+    private LocalDateTime expiredDate;
 
     @Builder
-    public Coupon(Long id, Long cafeId, Long userId, String expiredDate) {
+    public Coupon(Long id, Long cafeId, Long userId, LocalDateTime expiredDate) {
         this.id = id;
         this.cafeId = cafeId;
         this.userId = userId;
