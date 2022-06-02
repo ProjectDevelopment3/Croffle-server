@@ -31,8 +31,10 @@ public class StampController {
     }
 
     @PostMapping("/owner/stamp")
-    public Response addStamp(@RequestBody AddStampRequestDto stampRequestDto) {
-        stampService.addStamp(stampRequestDto.getCafeId(), stampRequestDto.getUserId());
+    public Response addStamp(@RequestBody AddStampRequestDto stampRequestDto,
+                             Authentication authentication) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        stampService.addStamp(stampRequestDto.getCafeId(), userPrincipal.getId());
         return Response.builder()
                 .code("201")
                 .messages("스탬프 찍어 주기가 완료 되었습니다.")

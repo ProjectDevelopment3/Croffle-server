@@ -19,8 +19,8 @@ public class ReportService {
     private final CafeRepository cafeRepository;
 
     @Transactional
-    public Long saveInfo(InfoReportDto reportDto) {
-        return reportRepository.save(reportDto.toEntity()).getId();
+    public Long saveInfo(InfoReportDto reportDto, Long userId) {
+        return reportRepository.save(reportDto.toEntity(userId)).getId();
     }
 
     @Transactional

@@ -19,7 +19,7 @@ public class ReviewController {
     public Response writeReview(Authentication authentication,
                                 @RequestBody ReviewDto reviewDto){
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        reviewService.saveReview(reviewDto);
+        reviewService.saveReview(reviewDto, userPrincipal.getId());
         return Response.builder()
                 .code("201")
                 .messages("리뷰 작성에 성공하였습니다.")

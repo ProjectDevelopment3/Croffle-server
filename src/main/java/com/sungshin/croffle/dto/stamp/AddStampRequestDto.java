@@ -8,11 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AddStampRequestDto {
     private Long cafeId;
-    private Long userId;
 
     @Builder
-    public AddStampRequestDto(Long cafeId, Long userId) {
+    public AddStampRequestDto(Long cafeId) {
         this.cafeId = cafeId;
-        this.userId = userId;
     }
 }

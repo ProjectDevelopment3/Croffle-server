@@ -12,8 +12,8 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public Long saveReview(ReviewDto reviewDto){
-        return reviewRepository.save(reviewDto.toEntity()).getId();
+    public Long saveReview(ReviewDto reviewDto, Long userId){
+        return reviewRepository.save(reviewDto.toEntity(userId)).getId();
     }
 
 }
