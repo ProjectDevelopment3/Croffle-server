@@ -10,13 +10,12 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class ReviewDto {
-    private Long user_id;
     private Long cafe_id;
     private int rate;
     private String content;
     private LocalDateTime createdate;
 
-    public Review toEntity() {
+    public Review toEntity(Long user_id) {
         return Review.builder()
                 .user_id(user_id)
                 .cafe_id(cafe_id)
@@ -26,8 +25,7 @@ public class ReviewDto {
     }
 
     @Builder
-    public ReviewDto(Long user_id, Long cafe_id ,int rate, String content){
-         this.user_id = user_id;
+    public ReviewDto(Long cafe_id ,int rate, String content){
          this.cafe_id = cafe_id;
          this.rate = rate;
          this.content = content;
