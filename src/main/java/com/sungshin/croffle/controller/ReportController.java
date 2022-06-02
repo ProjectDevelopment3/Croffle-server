@@ -21,7 +21,7 @@ public class ReportController {
     public Response info(Authentication authentication,
                          @RequestBody InfoReportDto reportDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        reportService.saveInfo(reportDto);
+        reportService.saveInfo(reportDto, userPrincipal.getId());
         return Response.builder()
                 .code("201")
                 .messages("오류 제보하기에 성공하였습니다.")
