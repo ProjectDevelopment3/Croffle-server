@@ -32,9 +32,7 @@ public class CafeService {
 
     @Transactional(readOnly = true)
     public List<CafeListDto> findByCafeName(String name) {
-        System.out.println("%" + name + "%");
         List<Cafe> cafeList = cafeRepository.findAllByNameLikeAndChecked("%" + name + "%", true);
-        System.out.println(cafeList);
         return cafeList.stream().map(CafeListDto::new).collect(Collectors.toList());
     }
 
