@@ -29,4 +29,6 @@ public interface CafeRepository extends JpaRepository<Cafe, Long> {
     Optional<Cafe> findByName(String name);
 
     List<Cafe> findAllByChecked(boolean check);
+
+    List<Cafe> findAllByNameLikeAndChecked(String name, boolean check);
 }
