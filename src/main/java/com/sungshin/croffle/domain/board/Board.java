@@ -4,6 +4,7 @@ import com.sungshin.croffle.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -29,14 +30,10 @@ public class Board extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private BoardCategory boardCategory;
 
-    private LocalDateTime createdDate;
-
-    private LocalDateTime modifiedDate;
-
 
 
     @Builder
-    public Board(Long id, Long user_id, String title, String content,BoardCategory boardCategory){
+    public Board(Long id, Long user_id, String title, String content, BoardCategory boardCategory){
         this.id = id;
         this.userId = user_id;
         this.title = title;
@@ -45,11 +42,10 @@ public class Board extends BaseTimeEntity {
 
     }
 
-    public void update(String title, String content,BoardCategory boardCategory, LocalDateTime modifiedDate){
+    public void update(String title, String content,BoardCategory boardCategory){
         this.title = title;
         this.content = content;
         this.boardCategory = boardCategory;
-        this.modifiedDate = modifiedDate;
     }
 
 }
