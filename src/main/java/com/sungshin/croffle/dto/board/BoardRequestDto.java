@@ -1,6 +1,5 @@
 package com.sungshin.croffle.dto.board;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sungshin.croffle.domain.board.Board;
 import com.sungshin.croffle.domain.board.BoardCategory;
 import lombok.Builder;
@@ -9,7 +8,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@JsonSerialize
 public class BoardRequestDto {
 
     private Long userId;
