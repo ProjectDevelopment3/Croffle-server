@@ -1,19 +1,17 @@
 package com.sungshin.croffle.dto.review;
 
-import com.sungshin.croffle.domain.review.Review;
+import com.sungshin.croffle.domain.Review;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
-
+@Setter
 @Getter
-@NoArgsConstructor
-public class ReviewDto {
+public class ReviewRequestDto {
+    private Long user_id;
     private Long cafe_id;
     private int rate;
     private String content;
-    private LocalDateTime createdate;
 
     public Review toEntity(Long user_id) {
         return Review.builder()
@@ -25,7 +23,8 @@ public class ReviewDto {
     }
 
     @Builder
-    public ReviewDto(Long cafe_id ,int rate, String content){
+    public ReviewRequestDto(Long user_id, Long cafe_id , int rate, String content){
+         this.user_id = user_id;
          this.cafe_id = cafe_id;
          this.rate = rate;
          this.content = content;
