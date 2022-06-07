@@ -4,8 +4,6 @@ import com.sungshin.croffle.domain.board.BoardCategory;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 @Getter
 public class BoardUpdateDto {
     private String title;
