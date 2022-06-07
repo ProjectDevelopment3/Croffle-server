@@ -27,4 +27,8 @@ public interface CafeRepository extends JpaRepository<Cafe, Long> {
     List<CafeRecommendWrapper> cafeRecommendOrderByLiked();
 
     Optional<Cafe> findByName(String name);
+
+    List<Cafe> findAllByChecked(boolean check);
+
+    List<Cafe> findAllByNameLikeAndChecked(String name, boolean check);
 }

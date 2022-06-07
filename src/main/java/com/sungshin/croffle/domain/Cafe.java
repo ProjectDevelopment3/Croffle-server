@@ -41,4 +41,19 @@ public class Cafe {
         this.coords = coords;
         this.addr = addr;
     }
+
+    @Override
+    public String toString() {
+        return "Cafe{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", coords='" + coords + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", checked=" + checked +
+                ", addr='" + addr + '\'' +
+                ", hours='" + hours + '\'' +
+                ", site='" + site + '\'' +
+                ", benefit='" + benefit + '\'' +
+                '}';
+    }
 }

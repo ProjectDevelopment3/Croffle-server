@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 @JsonSerialize
 public class BoardRequestDto {
+
     private Long userId;
     private String title;
     private String content;

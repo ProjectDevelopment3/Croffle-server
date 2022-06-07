@@ -3,8 +3,10 @@ package com.sungshin.croffle.dto.board;
 import com.sungshin.croffle.domain.board.BoardCategory;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class BoardUpdateDto {
     private String title;
     private String content;

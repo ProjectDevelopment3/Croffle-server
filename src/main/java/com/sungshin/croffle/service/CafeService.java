@@ -24,17 +24,26 @@ public class CafeService {
     private final LikedCafeRepository likedCafeRepository;
     private final UserRepository userRepository;
 
+    @Transactional(readOnly = true)
     public List<CafeListDto> findCafes() {
-        List<Cafe> cafeList = cafeRepository.findAll();
+        List<Cafe> cafeList = cafeRepository.findAllByChecked(true);
         return cafeList.stream().map(CafeListDto::new).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<CafeListDto> findByCafeName(String name) {
+        List<Cafe> cafeList = cafeRepository.findAllByNameLikeAndChecked("%" + name + "%", true);
+        return cafeList.stream().map(CafeListDto::new).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
     public CafeDetailDto cafeDetailSearch(Long cafe_id) {
         return new CafeDetailDto(
                 cafeRepository.findById(cafe_id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카페 id입니다.")));
     }
 
+    @Transactional(readOnly = true)
     public List<CafeRecommendWrapper> cafeRecommend(String filter) {
         List<CafeRecommendWrapper> list = null;
         if (filter.equals("review")) {
@@ -45,6 +54,7 @@ public class CafeService {
         return list;
     }
 
+    @Transactional(readOnly = true)
     public List<CafeListDto> findLikedCafes(Long user_id) {
         List<LikedCafe> likedCafes = likedCafeRepository.findByUserId(user_id);
         List<Cafe> cafeList = new ArrayList<>();
