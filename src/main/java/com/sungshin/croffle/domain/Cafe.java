@@ -56,4 +56,14 @@ public class Cafe {
                 ", benefit='" + benefit + '\'' +
                 '}';
     }
+
+
+    //카페 정보 수정
+    public void update(String name, String telephone, String hours, String site, String benefit){
+        this.name = name;
+        this.telephone = telephone;
+        this.hours = hours;
+        this.site = site;
+        this.benefit = benefit;
+    }
 }
