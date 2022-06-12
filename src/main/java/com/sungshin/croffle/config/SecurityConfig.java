@@ -35,11 +35,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://34.64.45.86"));
+        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://34.64.45.86", "http://localhost:8080"));
         corsConfiguration.setAllowedOrigins(Arrays.asList("HEAD", "OPTIONS", "GET",
                 "POST", "PUT", "DELETE"));
         corsConfiguration.setMaxAge(3600L);
-        corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control"));
+        corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
@@ -85,18 +85,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                     .antMatchers("/", "/board/{id}", "/cafes", "/cafe",
-                        "/cafe/recommend", "/review/list", "/nickname/verify")
+                        "/cafe/recommend", "/review/list", "/nickname/verify", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs")
                         .permitAll()
                     .antMatchers("/review", "/report/**", "/likes/**", "/user/**",
-                        "/nickname/**", "/stamps", "/coupons", "/board/**", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs")
+                        "/nickname/**", "/stamps", "/coupons", "/board/**")
                         .hasAnyRole(Role.USER.name(), Role.OWNER.name(), Role.ADMIN.name())
                     .antMatchers("/owner/**").hasAnyRole(Role.OWNER.name(), Role.ADMIN.name())
                 .anyRequest().authenticated()
 //                    .anyRequest().permitAll()
                 .and()
-                    .logout()
-                        .logoutSuccessUrl("/")
-                .and()
+//                    .logout()
+//                        .logoutSuccessUrl("/")
+//                .and()
                     .oauth2Login()
                         .authorizationEndpoint()
                             .baseUri("/oauth2/authorization")
