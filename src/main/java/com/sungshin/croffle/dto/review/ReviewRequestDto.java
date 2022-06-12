@@ -2,12 +2,10 @@ package com.sungshin.croffle.dto.review;
 
 import com.sungshin.croffle.domain.Review;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
-@Getter
 @NoArgsConstructor
 public class ReviewRequestDto {
     private Long userId;
