@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -31,16 +32,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService userDetailsService;
     private final OAuthAuthenticationSuccessHandler oAuthAuthenticationSuccessHandler;
     private final OAuthAuthenticationFailureHandler oAuthAuthenticationFailureHandler;
-//    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-
-        corsConfiguration.addAllowedOrigin("http://localhost:3000");
-        corsConfiguration.addAllowedOrigin("http://34.64.45.86");
+        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://34.64.45.86"));
         corsConfiguration.setAllowedOrigins(Arrays.asList("HEAD", "OPTIONS", "GET",
                 "POST", "PUT", "DELETE"));
         corsConfiguration.setMaxAge(3600L);
+        corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
@@ -75,27 +74,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
                 .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/board/{id}", "/cafes", "/cafe",
+                    .antMatchers("/", "/board/{id}", "/cafes", "/cafe",
                         "/cafe/recommend", "/review/list", "/nickname/verify")
-                .permitAll()
+                        .permitAll()
                     .antMatchers("/review", "/report/**", "/likes/**", "/user/**",
                         "/nickname/**", "/stamps", "/coupons", "/board/**", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs")
-                        .hasRole(Role.USER.name())
-                    .antMatchers("/review", "/report/**", "/likes/**", "/user/**",
-                            "/nickname/**", "/stamps", "/coupons", "/board/**", "/owner/**").hasRole(Role.OWNER.name())
-                    .antMatchers("/review", "/report/**", "/likes/**", "/user/**",
-                            "/nickname/**", "/stamps", "/coupons",
-                            "/board/**", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs",
-                            "/owner/**").hasRole(Role.ADMIN.name())
-
-                    .anyRequest().authenticated()
+                        .hasAnyRole(Role.USER.name(), Role.OWNER.name(), Role.ADMIN.name())
+                    .antMatchers("/owner/**").hasAnyRole(Role.OWNER.name(), Role.ADMIN.name())
+                .anyRequest().authenticated()
+//                    .anyRequest().permitAll()
                 .and()
                     .logout()
                         .logoutSuccessUrl("/")
