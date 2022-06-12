@@ -1,5 +1,6 @@
 package com.sungshin.croffle.config.auth;
 
+import com.sungshin.croffle.domain.user.Role;
 import com.sungshin.croffle.domain.user.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,10 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 public class UserPrincipal implements OAuth2User, UserDetails {
@@ -30,8 +28,15 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     public static UserPrincipal create(User user) {
         System.out.println("UserPrincipal create user");
-        List<GrantedAuthority> authorities =
-                Collections.singletonList(new SimpleGrantedAuthority(user.getRoleKey()));
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        if (user.getRoleKey().equals("ROLE_OWNER")) {
+            authorities.add(new SimpleGrantedAuthority(Role.USER.getKey()));
+        } else if (user.getRoleKey().equals("ROLE_ADMIN")) {
+            authorities.add(new SimpleGrantedAuthority(Role.USER.getKey()));
+            authorities.add(new SimpleGrantedAuthority(Role.OWNER.getKey()));
+        }
+        authorities.add(new SimpleGrantedAuthority(user.getRoleKey()));
+
         return new UserPrincipal(
                 user.getId(),
                 user.getNickname(),
