@@ -27,6 +27,23 @@ public class CafeController {
                 .build();
     }
 
+    @GetMapping("/cafe/search")
+    public Response<CafeListDto> findByCafeName(@RequestParam String name) {
+        List<CafeListDto> list = cafeService.findByCafeName(name);
+        if (list.size() == 0) {
+            return Response.<CafeListDto>builder()
+                    .code("200")
+                    .messages("일치하는 카페가 없습니다.")
+                    .data(list)
+                    .build();
+        }
+        return Response.<CafeListDto>builder()
+                .code("200")
+                .messages("카페 검색 성공")
+                .data(list)
+                .build();
+    }
+
     @GetMapping("/cafe")
     public Response<CafeDetailDto> cafedetails(@RequestParam Long id) {
         return Response.<CafeDetailDto>builder()

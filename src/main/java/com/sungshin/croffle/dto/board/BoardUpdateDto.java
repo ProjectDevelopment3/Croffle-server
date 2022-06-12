@@ -5,15 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @NoArgsConstructor
 public class BoardUpdateDto {
     private String title;
     private String content;
     private BoardCategory boardCategory;
-    private LocalDateTime modifiedDate;
 
     @Builder
     public BoardUpdateDto (String title, String content, BoardCategory boardCategory){
