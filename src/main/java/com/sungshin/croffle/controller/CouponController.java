@@ -5,7 +5,9 @@ import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
@@ -25,4 +27,20 @@ public class CouponController {
                 .data(Collections.singletonList(couponService.couponList(userPrincipal.getId())))
                 .build();
     }
+
+    @DeleteMapping("/coupon/use")
+    public Response couponUse(Authentication authentication, @RequestParam Long couponId) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        if (!couponService.useCoupon(userPrincipal.getId(), couponId)) {
+            return Response.builder()
+                    .code("400")
+                    .messages("존재하지 않는 쿠폰이거나, 사용자의 쿠폰이 아닙니다.")
+                    .build();
+        }
+        return Response.builder()
+                .code("200")
+                .messages("쿠폰 사용이 완료되었습니다.")
+                .build();
+    }
+
 }
