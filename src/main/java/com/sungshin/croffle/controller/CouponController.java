@@ -5,13 +5,13 @@ import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.coupon.CouponListResponseDto;
 import com.sungshin.croffle.service.CouponService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +20,7 @@ public class CouponController {
     private final CouponService couponService;
 
     @GetMapping("/coupons")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Response<CouponListResponseDto> couponList(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Response.<CouponListResponseDto>builder()
@@ -30,6 +31,7 @@ public class CouponController {
     }
 
     @DeleteMapping("/coupon/use")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Response couponUse(Authentication authentication, @RequestParam Long couponId) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         if (!couponService.useCoupon(userPrincipal.getId(), couponId)) {

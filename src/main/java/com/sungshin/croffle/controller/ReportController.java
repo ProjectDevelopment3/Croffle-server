@@ -6,6 +6,7 @@ import com.sungshin.croffle.dto.report.InfoReportDto;
 import com.sungshin.croffle.dto.report.ReportCafeDto;
 import com.sungshin.croffle.service.ReportService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ public class ReportController {
     private final ReportService reportService;
 
     @PostMapping("/report/info")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Response info(Authentication authentication,
                          @RequestBody InfoReportDto reportDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -29,6 +31,7 @@ public class ReportController {
     }
 
     @PostMapping("/report/menu")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Response menu(Authentication authentication,
                          @RequestBody ReportCafeDto reportCafeDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
