@@ -6,6 +6,7 @@ import com.sungshin.croffle.dto.stamp.AddStampRequestDto;
 import com.sungshin.croffle.dto.stamp.StampListDto;
 import com.sungshin.croffle.service.StampService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ public class StampController {
     private final StampService stampService;
 
     @GetMapping("/stamps")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Response<StampListDto> userStampList(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         Long userId = userPrincipal.getId();
@@ -32,6 +34,7 @@ public class StampController {
     }
 
     @PostMapping("/owner/stamp")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Response addStamp(@RequestBody AddStampRequestDto stampRequestDto,
                              Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();

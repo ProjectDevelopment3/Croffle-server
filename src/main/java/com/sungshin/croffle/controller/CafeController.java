@@ -5,6 +5,7 @@ import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.cafe.*;
 import com.sungshin.croffle.service.CafeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -71,6 +72,7 @@ public class CafeController {
 
     // 스크랩 기능
     @GetMapping("/likes")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Response<CafeListDto> likedcafesearch(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Response.<CafeListDto>builder()
@@ -81,6 +83,7 @@ public class CafeController {
     }
 
     @PostMapping("/like")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Response<Long> likedcafeAdd(Authentication authentication,
                                        @RequestBody LikedCafeRequestDto cafeAddRequestDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -94,6 +97,7 @@ public class CafeController {
     }
 
     @DeleteMapping("/like/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Response likecafeDelete(Authentication authentication,
                                    @RequestParam Long id) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
