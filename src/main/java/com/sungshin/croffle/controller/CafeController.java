@@ -57,6 +57,10 @@ public class CafeController {
     @GetMapping("/cafe/recommend")
     public Response<CafeRecommendWrapper> recommendCafe(@RequestParam String filter) {
         if (!filter.equals("liked") && !filter.equals("review")) {
+            return Response.<CafeRecommendWrapper>builder()
+                    .code("4000")
+                    .messages("필터 이름이 잘못되었습니다.")
+                    .build();
         }
         return Response.<CafeRecommendWrapper>builder()
                 .code("200")
