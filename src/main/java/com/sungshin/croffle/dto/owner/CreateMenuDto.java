@@ -3,11 +3,12 @@ package com.sungshin.croffle.dto.owner;
 import com.sungshin.croffle.domain.Menu;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 @Setter
-@Getter
+@NoArgsConstructor
 public class CreateMenuDto {
     private Long cafeId;
     private String name;

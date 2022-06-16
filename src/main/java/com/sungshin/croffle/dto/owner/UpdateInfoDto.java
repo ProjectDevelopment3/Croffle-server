@@ -2,10 +2,10 @@ package com.sungshin.croffle.dto.owner;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
-@Getter
 public class UpdateInfoDto {
     private String cafeName;
     private String telephone;
