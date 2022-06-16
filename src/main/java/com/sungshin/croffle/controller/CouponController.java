@@ -2,6 +2,7 @@ package com.sungshin.croffle.controller;
 
 import com.sungshin.croffle.config.auth.UserPrincipal;
 import com.sungshin.croffle.dto.Response;
+import com.sungshin.croffle.dto.coupon.CouponListResponseDto;
 import com.sungshin.croffle.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -19,12 +20,12 @@ public class CouponController {
     private final CouponService couponService;
 
     @GetMapping("/coupons")
-    public Response couponList(Authentication authentication) {
+    public Response<CouponListResponseDto> couponList(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        return Response.builder()
+        return Response.<CouponListResponseDto>builder()
                 .code("200")
                 .messages("쿠폰 리스트 조회에 성공하였습니다.")
-                .data(Collections.singletonList(couponService.couponList(userPrincipal.getId())))
+                .data(couponService.couponList(userPrincipal.getId()))
                 .build();
     }
 

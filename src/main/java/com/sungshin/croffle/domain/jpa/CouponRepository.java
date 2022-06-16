@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
-    @Query(value = "select ca.name, ca.benefit, co.expired_date from coupon co, cafe ca " +
+    @Query(value = "select co.id couponId, ca.name cafeName, ca.benefit benefit, co.expired_date expiredDate from coupon co, cafe ca " +
             "where ca.id = co.cafe_id and co.user_id = :userId", nativeQuery = true)
     List<CouponListResponseDto> findCouponList(@Param("userId") Long userId);
 }
