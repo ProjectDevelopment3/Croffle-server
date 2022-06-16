@@ -3,6 +3,7 @@ package com.sungshin.croffle.controller;
 import com.sungshin.croffle.config.auth.UserPrincipal;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.review.ReviewRequestDto;
+import com.sungshin.croffle.dto.review.SearchReviewDto;
 import com.sungshin.croffle.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -26,11 +27,11 @@ public class ReviewController {
     }
 
     @GetMapping("/review/{cafe_id}")
-    public Response searchReview(@PathVariable Long cafe_id){
-        return Response.builder()
+    public Response<SearchReviewDto> searchReview(@PathVariable Long cafe_id){
+        return Response.<SearchReviewDto>builder()
                 .code("200")
                 .messages("리뷰 조회에 성공하였습니다.")
-                .data(Collections.singletonList(reviewService.searchReview(cafe_id)))
+                .data(reviewService.searchReview(cafe_id))
                 .build();
 
     }

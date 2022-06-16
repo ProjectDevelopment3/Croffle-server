@@ -3,6 +3,7 @@ package com.sungshin.croffle.controller;
 import com.sungshin.croffle.config.auth.UserPrincipal;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.stamp.AddStampRequestDto;
+import com.sungshin.croffle.dto.stamp.StampListDto;
 import com.sungshin.croffle.service.StampService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -20,13 +21,13 @@ public class StampController {
     private final StampService stampService;
 
     @GetMapping("/stamps")
-    public Response userStampList(Authentication authentication) {
+    public Response<StampListDto> userStampList(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         Long userId = userPrincipal.getId();
-        return Response.builder()
+        return Response.<StampListDto>builder()
                 .code("200")
                 .messages("스탬프 리스트 조회에 성공하였습니다.")
-                .data(Collections.singletonList(stampService.stampList(userId)))
+                .data(stampService.stampList(userId))
                 .build();
     }
 
