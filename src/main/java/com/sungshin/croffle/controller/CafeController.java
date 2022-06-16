@@ -44,8 +44,8 @@ public class CafeController {
                 .build();
     }
 
-    @GetMapping("/cafe")
-    public Response<CafeDetailDto> cafedetails(@RequestParam Long id) {
+    @GetMapping("/cafe/{id}")
+    public Response<CafeDetailDto> cafedetails(@PathVariable Long id) {
         return Response.<CafeDetailDto>builder()
                 .code("200")
                 .messages("카페 상세 조회 성공")
