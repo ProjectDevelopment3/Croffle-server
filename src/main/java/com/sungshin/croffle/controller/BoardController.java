@@ -2,10 +2,7 @@ package com.sungshin.croffle.controller;
 
 import com.sungshin.croffle.config.auth.UserPrincipal;
 import com.sungshin.croffle.dto.Response;
-import com.sungshin.croffle.dto.board.BoardRequestDto;
-import com.sungshin.croffle.dto.board.BoardListDto;
-import com.sungshin.croffle.dto.board.BoardSearchDto;
-import com.sungshin.croffle.dto.board.BoardUpdateDto;
+import com.sungshin.croffle.dto.board.*;
 import com.sungshin.croffle.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -36,10 +33,10 @@ public class BoardController {
 
     //게시글 개별 조회
     @GetMapping("/board/{id}")
-    public Response<BoardSearchDto> findById(@PathVariable Long id) {
-        List<BoardSearchDto> list = new ArrayList<BoardSearchDto>();
+    public Response<BoardSearchWrapper> findById(@PathVariable Long id) {
+        List<BoardSearchWrapper> list = new ArrayList<BoardSearchWrapper>();
         list.add(boardService.getPost(id));
-        return Response.<BoardSearchDto>builder()
+        return Response.<BoardSearchWrapper>builder()
                 .code("200")
                 .messages("게시글 조회가 완료 되었습니다.")
                 .data(list)
@@ -58,7 +55,7 @@ public class BoardController {
 
     //게시물 수정
     @PutMapping("/board/{id}")
-    public Response<BoardSearchDto> update(Authentication authentication,
+    public Response update(Authentication authentication,
                                             @PathVariable Long id, @RequestBody BoardUpdateDto boardUpdateDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         if (boardService.updatePost(id, boardUpdateDto, userPrincipal.getId()) < 0L) {
@@ -70,7 +67,6 @@ public class BoardController {
         return Response.<BoardSearchDto>builder()
                 .code("201")
                 .messages("게시글 수정이 완료 되었습니다.")
-                .data(Collections.singletonList(boardService.getPost(id)))
                 .build();
     }
 

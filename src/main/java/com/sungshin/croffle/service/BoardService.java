@@ -1,10 +1,7 @@
 package com.sungshin.croffle.service;
 
 import com.sungshin.croffle.domain.board.Board;
-import com.sungshin.croffle.dto.board.BoardRequestDto;
-import com.sungshin.croffle.dto.board.BoardListDto;
-import com.sungshin.croffle.dto.board.BoardSearchDto;
-import com.sungshin.croffle.dto.board.BoardUpdateDto;
+import com.sungshin.croffle.dto.board.*;
 import com.sungshin.croffle.domain.jpa.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,9 +21,11 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public BoardSearchDto getPost(Long id) {
-        Board board = boardRepository.findById(id).get();
-        return new BoardSearchDto(board);
+    public BoardSearchWrapper getPost(Long id) {
+//        Board board = boardRepository.findById(id).get();
+        BoardSearchWrapper entity = boardRepository.findByIdJoinUser(id)
+                .orElseThrow(() -> new IllegalArgumentException("board, user join 문제 발생"));
+        return entity;
 
     }
 
