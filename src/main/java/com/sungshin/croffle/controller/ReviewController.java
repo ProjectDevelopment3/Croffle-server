@@ -6,6 +6,7 @@ import com.sungshin.croffle.dto.review.ReviewRequestDto;
 import com.sungshin.croffle.dto.review.SearchReviewDto;
 import com.sungshin.croffle.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/review")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Response writeReview(Authentication authentication,@RequestBody ReviewRequestDto reviewRequestDto){
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         reviewService.saveReview(reviewRequestDto, userPrincipal.getId());
