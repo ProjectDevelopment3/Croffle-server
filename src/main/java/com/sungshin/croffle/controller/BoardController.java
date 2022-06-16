@@ -5,6 +5,7 @@ import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.board.*;
 import com.sungshin.croffle.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +15,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-
 public class BoardController {
     private final BoardService boardService;
 
     //게시물 작성
     @PostMapping("/board")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Response write(Authentication authentication,
                           @RequestBody BoardRequestDto boardRequestDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -56,6 +57,8 @@ public class BoardController {
     //게시물 수정
     @PutMapping("/board/{id}")
     public Response update(Authentication authentication,
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Response<BoardSearchDto> update(Authentication authentication,
                                             @PathVariable Long id, @RequestBody BoardUpdateDto boardUpdateDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         if (boardService.updatePost(id, boardUpdateDto, userPrincipal.getId()) < 0L) {
@@ -72,6 +75,7 @@ public class BoardController {
 
     //게시물 삭제
     @DeleteMapping("/board/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Response delete(@PathVariable Long id, Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         if (!boardService.deletePost(id, userPrincipal.getId())) {
