@@ -87,12 +87,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/", "/board/{id}", "/cafes", "/cafe",
                         "/cafe/recommend", "/review/list", "/nickname/verify", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs")
                         .permitAll()
-                    .antMatchers("/review", "/report/**", "/likes/**", "/user/**",
-                        "/nickname/**", "/stamps", "/coupons", "/board/**")
-                        .hasAnyRole(Role.USER.name(), Role.OWNER.name(), Role.ADMIN.name())
                     .antMatchers("/owner/**").hasAnyRole(Role.OWNER.name(), Role.ADMIN.name())
+                    .antMatchers("/review", "/report/**", "/likes/**", "/user/**",
+                        "/nickname/**", "/stamps", "/coupons", "/board/**", "/owner/verify")
+                        .hasAnyRole(Role.USER.name(), Role.OWNER.name(), Role.ADMIN.name())
                 .anyRequest().authenticated()
-//                    .anyRequest().permitAll()
                 .and()
 //                    .logout()
 //                        .logoutSuccessUrl("/")
