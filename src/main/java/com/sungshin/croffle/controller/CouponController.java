@@ -34,7 +34,7 @@ public class CouponController {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         if (!couponService.useCoupon(userPrincipal.getId(), couponId)) {
             return Response.builder()
-                    .code("400")
+                    .code("4000")
                     .messages("존재하지 않는 쿠폰이거나, 사용자의 쿠폰이 아닙니다.")
                     .build();
         }

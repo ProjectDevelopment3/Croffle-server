@@ -20,7 +20,6 @@ public class UserController {
     @GetMapping("/user/me")
     public Response<UserDto> getCurrentUser(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        System.out.println(userPrincipal);
         return Response.<UserDto>builder()
                 .code("200")
                 .messages("사용자 조회가 완료되었습니다.")
