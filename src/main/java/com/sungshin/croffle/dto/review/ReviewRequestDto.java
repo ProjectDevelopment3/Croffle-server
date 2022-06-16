@@ -1,5 +1,6 @@
 package com.sungshin.croffle.dto.review;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sungshin.croffle.domain.Review;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ReviewRequestDto {
+
+    @JsonIgnore
     private Long userId;
     private Long cafeId;
     private int rate;

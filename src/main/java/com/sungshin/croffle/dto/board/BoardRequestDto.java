@@ -1,5 +1,6 @@
 package com.sungshin.croffle.dto.board;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sungshin.croffle.domain.board.Board;
 import com.sungshin.croffle.domain.board.BoardCategory;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class BoardRequestDto {
 
+    @JsonIgnore
     private Long userId;
     private String title;
     private String content;
