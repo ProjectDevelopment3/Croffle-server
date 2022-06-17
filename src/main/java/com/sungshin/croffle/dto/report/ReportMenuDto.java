@@ -1,4 +1,4 @@
-package com.sungshin.croffle.dto.owner;
+package com.sungshin.croffle.dto.report;
 
 import com.sungshin.croffle.domain.Menu;
 import lombok.Builder;
@@ -7,24 +7,22 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CreateMenuDto {
-    private Long cafeId;
+public class ReportMenuDto {
+
     private String name;
     private String price;
 
-    @Builder
-    public CreateMenuDto(Long cafeId, String name, String price){
-        this.cafeId = cafeId;
-        this.name = name;
-        this.price = price;
-    }
-
     public Menu toEntity(){
         return Menu.builder()
-                .cafe_id(cafeId)
                 .name(name)
                 .price(price)
                 .build();
+    }
+
+    @Builder
+    public ReportMenuDto (String name, String price){
+        this.name =name;
+        this.price = price;
     }
 
 }

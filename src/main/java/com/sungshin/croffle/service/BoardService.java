@@ -1,45 +1,46 @@
 package com.sungshin.croffle.service;
 
 import com.sungshin.croffle.domain.board.Board;
-import com.sungshin.croffle.dto.board.BoardDto;
-import com.sungshin.croffle.dto.board.BoardListDto;
-import com.sungshin.croffle.dto.board.BoardUpdateDto;
+import com.sungshin.croffle.dto.board.*;
 import com.sungshin.croffle.domain.jpa.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
 
-    @Transactional(readOnly = true)
-    public Long savePost(BoardDto boardDto) {
-        return boardRepository.save(boardDto.toEntity()).getId();
-    }
-
-    public BoardDto getPost(Long id) {
-        Board board = boardRepository.findById(id).get();
-        return new BoardDto(board);
-
+    @Transactional
+    public Long savePost(BoardRequestDto boardRequestDto) {
+        return boardRepository.save(boardRequestDto.toEntity()).getId();
     }
 
     @Transactional(readOnly = true)
-    public List<BoardListDto> getAllPost() {
-        return boardRepository.findAllByOrderByIdDesc().stream()
-                .map(BoardListDto::new)
-                .collect(Collectors.toList());
+    public BoardSearchWrapper getPost(Long id) {
+        BoardSearchWrapper entity = boardRepository.findByIdJoinUser(id)
+                .orElseThrow(() -> new IllegalArgumentException("board, user join 문제 발생"));
+        return entity;
+
+    }
+
+    @Transactional(readOnly = true)
+    public List<BoardListWrapper> getAllPost() {
+        List<BoardListWrapper> boardSearchWrappers = boardRepository.findAllByUserIdByOrderByIdDesc();
+        log.info(boardSearchWrappers.toString());
+        return boardSearchWrappers;
     }
 
     @Transactional
     public Long updatePost(Long id, BoardUpdateDto boardUpdateDto, Long userid) {
         Board post = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
         if (post.getUserId().equals(userid)) {
-            post.update(boardUpdateDto.getTitle(), boardUpdateDto.getContent(), boardUpdateDto.getBoardCategory(), boardUpdateDto.getModifiedDate());
+            post.update(boardUpdateDto.getTitle(), boardUpdateDto.getContent(), boardUpdateDto.getBoardCategory());
             return id;
         }
         return -1L;

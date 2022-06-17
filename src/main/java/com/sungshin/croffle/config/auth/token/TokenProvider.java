@@ -23,11 +23,10 @@ public class TokenProvider {
         System.out.print("token provider: ");
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-        System.out.println("user principal: " + userPrincipal);
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() +
                 appProperties.getAuth().getTokenExpirationMsec());
-
+        System.out.println("expiryDate: " + expiryDate);
         return Jwts.builder()
                 .setSubject(Long.toString(userPrincipal.getId()))
                 .setIssuedAt(new Date())
@@ -61,6 +60,7 @@ public class TokenProvider {
         } catch (IllegalArgumentException e) {
             log.error("비어있는 JWT");
         }
+        System.out.println("jwt not validate");
         return false;
     }
 }

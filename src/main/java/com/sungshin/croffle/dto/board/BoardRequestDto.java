@@ -1,5 +1,6 @@
 package com.sungshin.croffle.dto.board;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sungshin.croffle.domain.board.Board;
 import com.sungshin.croffle.domain.board.BoardCategory;
 import lombok.Builder;
@@ -7,23 +8,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
-@Setter
 @NoArgsConstructor
-public class BoardDto {
-    private Long id;
+
+public class BoardRequestDto {
+
+    @JsonIgnore
     private Long userId;
     private String title;
     private String content;
     private BoardCategory boardCategory;
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
 
     public Board toEntity() {
         Board build = Board.builder()
-                .id(id)
                 .user_id(userId)
                 .title(title)
                 .content(content)
@@ -33,25 +30,13 @@ public class BoardDto {
     }
 
     @Builder
-    public BoardDto(Long id, Long user_id, String title, String content, BoardCategory boardCategory, LocalDateTime createdDate, LocalDateTime modifiedDateDate){
-        this.id = id;
+    public BoardRequestDto(Long user_id, String title, String content, BoardCategory boardCategory){
         this.userId = user_id;
         this.title = title;
         this.content = content;
         this.boardCategory = boardCategory;
-        this.createdDate = createdDate;
-        this.modifiedDate = modifiedDateDate;
     }
 
-    public BoardDto(Board board) {
-        this.id = board.getId();
-        this.userId = board.getUserId();
-        this.title = board.getTitle();
-        this.content = board.getContent();
-        this.boardCategory = board.getBoardCategory();
-        this.createdDate = board.getCreatedDate();
-        this.modifiedDate = board.getModifiedDate();
-    }
 
     public void setUserId(Long userId) {
         this.userId = userId;

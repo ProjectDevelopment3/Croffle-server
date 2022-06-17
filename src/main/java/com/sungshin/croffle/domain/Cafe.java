@@ -18,9 +18,6 @@ public class Cafe {
     @Column(length = 40, nullable = false)
     private String name;
 
-    @Column(length = 100, nullable = false)
-    private String coords;
-
     @Column(length = 30)
     private String telephone;
 
@@ -36,9 +33,8 @@ public class Cafe {
     private String benefit;
 
     @Builder
-    public Cafe(String name, String coords, String addr) {
+    public Cafe(String name, String addr) {
         this.name = name;
-        this.coords = coords;
         this.addr = addr;
     }
 
@@ -47,7 +43,6 @@ public class Cafe {
         return "Cafe{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", coords='" + coords + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", checked=" + checked +
                 ", addr='" + addr + '\'' +
