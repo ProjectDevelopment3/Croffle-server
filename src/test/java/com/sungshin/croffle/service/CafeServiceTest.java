@@ -31,7 +31,6 @@ public class CafeServiceTest {
     public void beforeEach() {
         Cafe cafe = Cafe.builder()
                 .name("테스트카페")
-                .coords("10,10")
                 .addr("서울시 강남구")
                 .build();
         cafeRepository.save(cafe);

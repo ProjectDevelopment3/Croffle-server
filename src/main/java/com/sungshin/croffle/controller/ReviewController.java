@@ -29,7 +29,7 @@ public class ReviewController {
     }
 
     @GetMapping("/review/{cafe_id}")
-    public Response searchReview(@PathVariable Long cafe_id){
+    public Response<SearchReviewDto> searchReview(@PathVariable Long cafe_id){
         List<SearchReviewDto> reviewList = reviewService.searchReview(cafe_id);
         
         if(reviewList.size() == 0){
@@ -43,9 +43,8 @@ public class ReviewController {
         return Response.<SearchReviewDto>builder()
                 .code("200")
                 .messages("리뷰 조회에 성공하였습니다.")
-                .data(reviewList)
+                .data(reviewService.searchReview(cafe_id))
                 .build();
-
     }
 
 }

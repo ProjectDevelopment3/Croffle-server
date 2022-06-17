@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,6 +27,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @RequiredArgsConstructor
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService oAuth2UserService;
@@ -84,15 +86,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/", "/board/{id}", "/cafes", "/cafe",
-                        "/cafe/recommend", "/review/list", "/nickname/verify", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs")
-                        .permitAll()
-                    .antMatchers("/review", "/report/**", "/likes/**", "/user/**",
-                        "/nickname/**", "/stamps", "/coupons", "/board/**")
-                        .hasAnyRole(Role.USER.name(), Role.OWNER.name(), Role.ADMIN.name())
                     .antMatchers("/owner/**").hasAnyRole(Role.OWNER.name(), Role.ADMIN.name())
-                .anyRequest().authenticated()
-//                    .anyRequest().permitAll()
+//                    .antMatchers("/review", "/report/**", "/likes/**", "/user/**",
+//                        "/nickname", "/stamps", "/coupons", "/board/**", "/owner/verify")
+//                        .hasAnyRole(Role.USER.name(), Role.OWNER.name(), Role.ADMIN.name())
+                    .antMatchers("/", "/boards", "/cafes", "/cafe",
+                            "/cafe/recommend", "/review/list", "/nickname/verify", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs")
+                    .permitAll()
+//                .anyRequest().authenticated()
                 .and()
 //                    .logout()
 //                        .logoutSuccessUrl("/")
