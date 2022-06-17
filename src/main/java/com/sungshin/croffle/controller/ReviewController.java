@@ -34,7 +34,7 @@ public class ReviewController {
         
         if(reviewList.size() == 0){
             return Response.<SearchReviewDto>builder()
-                    .code("200")
+                    .code("403")
                     .messages("일치하는 리뷰가 없습니다.")
                     .data(reviewList)
                     .build();
