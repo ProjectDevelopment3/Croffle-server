@@ -30,7 +30,7 @@ public class User {
     private String profileUrl;
 
     @ColumnDefault("0")
-    private int owner;
+    private Long owner;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -61,6 +61,11 @@ public class User {
 
     public String getRoleKey() {
         return this.role.getKey();
+    }
+
+    public void updateOwner(Role role, Long cafeId) {
+        this.role = role;
+        this.owner = cafeId;
     }
 
     @Override

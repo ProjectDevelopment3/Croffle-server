@@ -56,7 +56,6 @@ public class BoardController {
 
     //게시물 수정
     @PutMapping("/board/{id}")
-    public Response update(Authentication authentication,
     @PreAuthorize("hasRole('ROLE_USER')")
     public Response<BoardSearchDto> update(Authentication authentication,
                                             @PathVariable Long id, @RequestBody BoardUpdateDto boardUpdateDto) {
