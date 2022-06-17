@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -46,8 +45,8 @@ public class BoardController {
 
     //게시판 목록 조회
     @GetMapping("/boards")
-    public Response<BoardListDto> postList() {
-        return Response.<BoardListDto>builder()
+    public Response<BoardListWrapper> postList() {
+        return Response.<BoardListWrapper>builder()
                 .code("200")
                 .messages("게시판 조회가 완료되었습니다.")
                 .data(boardService.getAllPost())

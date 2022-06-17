@@ -29,9 +29,9 @@ public class ReviewController {
     }
 
     @GetMapping("/review/{cafe_id}")
-    public Response searchReview(@PathVariable Long cafe_id) {
+    public Response<SearchReviewDto> searchReview(@PathVariable Long cafe_id){
         List<SearchReviewDto> reviewList = reviewService.searchReview(cafe_id);
-
+       
         if (reviewList.size() == 0) {
             return Response.<SearchReviewDto>builder()
                     .code("4000")

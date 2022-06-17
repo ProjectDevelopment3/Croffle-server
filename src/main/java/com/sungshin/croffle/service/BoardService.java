@@ -4,12 +4,13 @@ import com.sungshin.croffle.domain.board.Board;
 import com.sungshin.croffle.dto.board.*;
 import com.sungshin.croffle.domain.jpa.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BoardService {
@@ -22,7 +23,6 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public BoardSearchWrapper getPost(Long id) {
-//        Board board = boardRepository.findById(id).get();
         BoardSearchWrapper entity = boardRepository.findByIdJoinUser(id)
                 .orElseThrow(() -> new IllegalArgumentException("board, user join 문제 발생"));
         return entity;
@@ -30,10 +30,10 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<BoardListDto> getAllPost() {
-        return boardRepository.findAllByOrderByIdDesc().stream()
-                .map(BoardListDto::new)
-                .collect(Collectors.toList());
+    public List<BoardListWrapper> getAllPost() {
+        List<BoardListWrapper> boardSearchWrappers = boardRepository.findAllByUserIdByOrderByIdDesc();
+        log.info(boardSearchWrappers.toString());
+        return boardSearchWrappers;
     }
 
     @Transactional
