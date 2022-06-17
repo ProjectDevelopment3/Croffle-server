@@ -2,12 +2,10 @@ package com.sungshin.croffle.controller;
 
 import com.sungshin.croffle.config.auth.UserPrincipal;
 import com.sungshin.croffle.dto.Response;
-import com.sungshin.croffle.dto.owner.CreateMenuDto;
-import com.sungshin.croffle.dto.owner.SearchCafeInfoDto;
-import com.sungshin.croffle.dto.owner.UpdateInfoDto;
-import com.sungshin.croffle.dto.owner.UpdateMenuDto;
+import com.sungshin.croffle.dto.owner.*;
 import com.sungshin.croffle.service.OwnerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,5 +76,21 @@ public class OwnerController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/owner/verify")
+    public Response checkedOwner(Authentication authentication, @RequestBody OwnerCheckRequestDto checkRequestDto) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        if (!ownerService.checkedOwner(checkRequestDto, userPrincipal.getId())) {
+            return Response.builder()
+                    .code("4010")
+                    .messages("사장님이 아니거나, 유효한 사업자 등록증이 아닙니다.")
+                    .build();
+        }
+        ownerService.ownerRoleAdd(userPrincipal.getId(), checkRequestDto);
+        return Response.builder()
+                .code("200")
+                .messages("사장님 인증이 완료되었습니다.")
+                .build();
+    }
 
 }
