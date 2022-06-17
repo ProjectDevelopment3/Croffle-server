@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -24,7 +23,6 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public BoardSearchWrapper getPost(Long id) {
-//        Board board = boardRepository.findById(id).get();
         BoardSearchWrapper entity = boardRepository.findByIdJoinUser(id)
                 .orElseThrow(() -> new IllegalArgumentException("board, user join 문제 발생"));
         return entity;
