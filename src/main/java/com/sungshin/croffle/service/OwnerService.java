@@ -4,6 +4,7 @@ import com.sungshin.croffle.domain.Cafe;
 import com.sungshin.croffle.domain.Menu;
 import com.sungshin.croffle.domain.jpa.CafeRepository;
 import com.sungshin.croffle.domain.jpa.MenuRepository;
+import com.sungshin.croffle.domain.jpa.UserRepository;
 import com.sungshin.croffle.dto.owner.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import java.util.List;
 public class OwnerService {
     private final CafeRepository cafeRepository;
     private final MenuRepository menuRepository;
-
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public SearchCafeInfoDto getCafeInfo(Long cafe_id) {
@@ -26,20 +27,17 @@ public class OwnerService {
         return info;
     }
 
-
     @Transactional(readOnly = true)
-    public List<SearchMenuDto> getMenuList(Long cafe_id) {
+    public List<SearchMenuDto> getMenuList(Long userId) {
+        Long cafeId = userRepository.findById(userId).orElseThrow().getOwner();
         List<SearchMenuDto> menuList = new ArrayList<SearchMenuDto>();
-        List<Menu> menus = menuRepository.findByCafeId(cafe_id);
+        List<Menu> menus = menuRepository.findByCafeId(cafeId);
         for (int i = 0; i <menus.size(); i++) {
             Menu menu = (menus.get(i));
             menuList.add(new SearchMenuDto(menu));
         }
         return menuList;
     }
-
-
-
 
     @Transactional
     public Long updateInfo(Long id, UpdateInfoDto updateInfoDto) {
@@ -48,20 +46,18 @@ public class OwnerService {
         return id;
     }
 
-
-
     @Transactional
     public Long addMenu(CreateMenuDto createMenuDto) {
         return menuRepository.save(createMenuDto.toEntity()).getId();
     }
 
 
-    @Transactional(readOnly = true)
-    public SearchMenuDto getMenu(Long id) {
-        Menu menu = menuRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴 입니다. id = " + id));
-        SearchMenuDto searchMenuDto = new SearchMenuDto(menu);
-        return searchMenuDto;
-    }
+//    @Transactional(readOnly = true)
+//    public SearchMenuDto getMenu(Long id) {
+//        Menu menu = menuRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴 입니다. id = " + id));
+//        SearchMenuDto searchMenuDto = new SearchMenuDto(menu);
+//        return searchMenuDto;
+//    }
 
 
     @Transactional
@@ -70,7 +66,5 @@ public class OwnerService {
         menu.update(updateMenuDto.getMenuName(), updateMenuDto.getMenuPrice());
         return id;
     }
-
-
 
 }

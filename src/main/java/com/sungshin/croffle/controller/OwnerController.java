@@ -44,12 +44,13 @@ public class OwnerController {
 
 
     //사장님 서비스 메뉴 개별 조회
-    @GetMapping("/owner/menu/{id}")
-    public Response getCafeMenu(@PathVariable Long id){
+    @GetMapping("/owner/menus")
+    public Response getCafeMenu(Authentication authentication) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Response.builder()
                 .code("200")
                 .messages("메뉴 조회에 성공하였습니다.")
-                .data(Collections.singletonList(ownerService.getMenu(id)))
+                .data(ownerService.getMenuList(userPrincipal.getId()))
                 .build();
     }
 
