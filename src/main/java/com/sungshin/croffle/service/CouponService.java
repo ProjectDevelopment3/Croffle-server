@@ -28,4 +28,19 @@ public class CouponService {
                 .build();
         return couponRepository.save(entity);
     }
+
+    @Transactional
+    public boolean useCoupon(Long userId, Long couponId) {
+        try {
+            Coupon entity = couponRepository.findById(couponId)
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
+            if (entity.getUserId() == userId) {
+                return false;
+            }
+            couponRepository.delete(entity);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
+    }
 }

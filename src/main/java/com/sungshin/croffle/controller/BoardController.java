@@ -2,11 +2,10 @@ package com.sungshin.croffle.controller;
 
 import com.sungshin.croffle.config.auth.UserPrincipal;
 import com.sungshin.croffle.dto.Response;
-import com.sungshin.croffle.dto.board.BoardDto;
-import com.sungshin.croffle.dto.board.BoardListDto;
-import com.sungshin.croffle.dto.board.BoardUpdateDto;
+import com.sungshin.croffle.dto.board.*;
 import com.sungshin.croffle.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,17 +15,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-
 public class BoardController {
     private final BoardService boardService;
 
     //게시물 작성
     @PostMapping("/board")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Response write(Authentication authentication,
-                          @RequestBody BoardDto boardDto) {
+                          @RequestBody BoardRequestDto boardRequestDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        boardDto.setUserId(userPrincipal.getId());
-        boardService.savePost(boardDto);
+        boardRequestDto.setUserId(userPrincipal.getId());
+        boardService.savePost(boardRequestDto);
         return Response.builder()
                 .code("201")
                 .messages("게시물 작성이 완료 되었습니다.")
@@ -35,10 +34,10 @@ public class BoardController {
 
     //게시글 개별 조회
     @GetMapping("/board/{id}")
-    public Response<BoardDto> findById(@PathVariable Long id) {
-        List<BoardDto> list = new ArrayList<BoardDto>();
+    public Response<BoardSearchWrapper> findById(@PathVariable Long id) {
+        List<BoardSearchWrapper> list = new ArrayList<BoardSearchWrapper>();
         list.add(boardService.getPost(id));
-        return Response.<BoardDto>builder()
+        return Response.<BoardSearchWrapper>builder()
                 .code("200")
                 .messages("게시글 조회가 완료 되었습니다.")
                 .data(list)
@@ -57,24 +56,25 @@ public class BoardController {
 
     //게시물 수정
     @PutMapping("/board/{id}")
-    public Response<BoardDto> update(Authentication authentication,
-                                     @PathVariable Long id, @RequestBody BoardUpdateDto boardUpdateDto) {
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Response<BoardSearchDto> update(Authentication authentication,
+                                            @PathVariable Long id, @RequestBody BoardUpdateDto boardUpdateDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         if (boardService.updatePost(id, boardUpdateDto, userPrincipal.getId()) < 0L) {
-            return Response.<BoardDto>builder()
+            return Response.<BoardSearchDto>builder()
                     .code("403")
                     .messages("수정 권한이 없습니다.")
                     .build();
         }
-        return Response.<BoardDto>builder()
+        return Response.<BoardSearchDto>builder()
                 .code("201")
                 .messages("게시글 수정이 완료 되었습니다.")
-                .data(Collections.singletonList(boardService.getPost(id)))
                 .build();
     }
 
     //게시물 삭제
     @DeleteMapping("/board/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Response delete(@PathVariable Long id, Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         if (!boardService.deletePost(id, userPrincipal.getId())) {

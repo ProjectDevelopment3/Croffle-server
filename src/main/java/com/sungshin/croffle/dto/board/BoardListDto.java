@@ -14,14 +14,14 @@ public class BoardListDto {
     private String user_nickname;
     private String title;
     private BoardCategory boardCategory;
-    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 
     public BoardListDto(Board entity){
         this.id = entity.getId();
         //this.user_nickname = entity.getUser_id().getNickname();
         this.title = entity.getTitle();
         this.boardCategory = entity.getBoardCategory();
-        this.createdDate = entity.getCreatedDate();
+        this.modifiedDate = entity.getModifiedDate();
     }
 
 }

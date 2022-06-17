@@ -1,9 +1,7 @@
 package com.sungshin.croffle.service;
 
 import com.sungshin.croffle.domain.board.Board;
-import com.sungshin.croffle.dto.board.BoardDto;
-import com.sungshin.croffle.dto.board.BoardListDto;
-import com.sungshin.croffle.dto.board.BoardUpdateDto;
+import com.sungshin.croffle.dto.board.*;
 import com.sungshin.croffle.domain.jpa.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,14 +15,17 @@ import java.util.stream.Collectors;
 public class BoardService {
     private final BoardRepository boardRepository;
 
-    @Transactional(readOnly = true)
-    public Long savePost(BoardDto boardDto) {
-        return boardRepository.save(boardDto.toEntity()).getId();
+    @Transactional
+    public Long savePost(BoardRequestDto boardRequestDto) {
+        return boardRepository.save(boardRequestDto.toEntity()).getId();
     }
 
-    public BoardDto getPost(Long id) {
-        Board board = boardRepository.findById(id).get();
-        return new BoardDto(board);
+    @Transactional(readOnly = true)
+    public BoardSearchWrapper getPost(Long id) {
+//        Board board = boardRepository.findById(id).get();
+        BoardSearchWrapper entity = boardRepository.findByIdJoinUser(id)
+                .orElseThrow(() -> new IllegalArgumentException("board, user join 문제 발생"));
+        return entity;
 
     }
 
@@ -39,7 +40,7 @@ public class BoardService {
     public Long updatePost(Long id, BoardUpdateDto boardUpdateDto, Long userid) {
         Board post = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
         if (post.getUserId().equals(userid)) {
-            post.update(boardUpdateDto.getTitle(), boardUpdateDto.getContent(), boardUpdateDto.getBoardCategory(), boardUpdateDto.getModifiedDate());
+            post.update(boardUpdateDto.getTitle(), boardUpdateDto.getContent(), boardUpdateDto.getBoardCategory());
             return id;
         }
         return -1L;
