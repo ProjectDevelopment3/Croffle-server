@@ -10,7 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,13 +29,22 @@ public class ReviewController {
     }
 
     @GetMapping("/review/{cafe_id}")
-    public Response<SearchReviewDto> searchReview(@PathVariable Long cafe_id){
+    public Response searchReview(@PathVariable Long cafe_id) {
+        List<SearchReviewDto> reviewList = reviewService.searchReview(cafe_id);
+
+        if (reviewList.size() == 0) {
+            return Response.<SearchReviewDto>builder()
+                    .code("4000")
+                    .messages("일치하는 리뷰가 없습니다.")
+                    .data(reviewList)
+                    .build();
+        }
+
         return Response.<SearchReviewDto>builder()
                 .code("200")
                 .messages("리뷰 조회에 성공하였습니다.")
-                .data(reviewService.searchReview(cafe_id))
+                .data(reviewList)
                 .build();
-
     }
 
 }

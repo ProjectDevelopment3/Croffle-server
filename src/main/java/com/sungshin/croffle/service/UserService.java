@@ -41,4 +41,10 @@ public class UserService {
         user.nicknameEdit(nickname);
         return new UserDto().toDto(user);
     }
+
+    public Long findCafeId(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 user id 입니다."))
+                .getOwner();
+    }
 }

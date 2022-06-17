@@ -4,6 +4,7 @@ import com.sungshin.croffle.config.auth.UserPrincipal;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.owner.*;
 import com.sungshin.croffle.service.OwnerService;
+import com.sungshin.croffle.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -16,12 +17,15 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class OwnerController {
     private final OwnerService ownerService;
+    private final UserService userService;
 
     //사장님 서비스 가게 정보 조회
     @GetMapping("/owner/cafe")
-    public Response getCafeInfo(@PathVariable Long cafe_id) {
+    public Response getCafeInfo(Authentication authentication) {
         //session에 있는 userId를 넘겨주고
-        SearchCafeInfoDto cafeInfo = ownerService.getCafeInfo(cafe_id);
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        Long cafeId = userService.findCafeId(userPrincipal.getId());
+        SearchCafeInfoDto cafeInfo = ownerService.getCafeInfo(cafeId);
         return Response.builder()
                 .code("200")
                 .messages("매장 정보 조회에 성공했습니다.")
@@ -40,17 +44,16 @@ public class OwnerController {
                 .build();
     }
 
-
     //사장님 서비스 메뉴 개별 조회
-    @GetMapping("/owner/menu/{id}")
-    public Response getCafeMenu(@PathVariable Long id){
-        return Response.builder()
+    @GetMapping("/owner/menus")
+    public Response<SearchMenuDto> getCafeMenu(Authentication authentication) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        return Response.<SearchMenuDto>builder()
                 .code("200")
                 .messages("메뉴 조회에 성공하였습니다.")
-                .data(Collections.singletonList(ownerService.getMenu(id)))
+                .data(ownerService.getMenuList(userPrincipal.getId()))
                 .build();
     }
-
 
     //사장님 서비스 메뉴 추가
     @PostMapping("/owner/menu")

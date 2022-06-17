@@ -5,9 +5,12 @@ import com.sungshin.croffle.domain.board.Board;
 import com.sungshin.croffle.domain.board.BoardCategory;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
+@NoArgsConstructor
+
 public class BoardRequestDto {
 
     @JsonIgnore

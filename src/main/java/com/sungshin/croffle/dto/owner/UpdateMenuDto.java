@@ -2,10 +2,10 @@ package com.sungshin.croffle.dto.owner;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
+@NoArgsConstructor
 public class UpdateMenuDto {
     private String menuName;
     private String menuPrice;
