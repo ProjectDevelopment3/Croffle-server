@@ -17,7 +17,7 @@ public interface CafeRepository extends JpaRepository<Cafe, Long> {
             "((select c1.id, c1.addr, c1.name, ifnull(lc.count, 0) liked_count " +
                 "from cafe c1 left join " +
                     "(select cafe_id, count(cafe_id) count from liked_cafe group by cafe_id) lc " +
-                "on c1.id = lc.cafe_id group by c1.id)) c" +
+                "on c1.id = lc.cafe_id where c1.checked=true group by c1.id)) c" +
             " left join " +
             "(SELECT cafe_id, ifnull(sum(rate) / count(*), 0) rate from review group by cafe_id) r" +
             " on c.id = r.cafe_id order by r.rate desc", nativeQuery = true)
@@ -28,7 +28,7 @@ public interface CafeRepository extends JpaRepository<Cafe, Long> {
             "((select c1.id, c1.addr, c1.name, ifnull(lc.count, 0) liked_count " +
                 "from cafe c1 left join " +
                 "(select cafe_id, count(cafe_id) count from liked_cafe group by cafe_id) lc " +
-                "on c1.id = lc.cafe_id group by c1.id)) c" +
+                "on c1.id = lc.cafe_id where c1.checked=true group by c1.id)) c" +
             " left join " +
             "(SELECT cafe_id, ifnull(sum(rate) / count(*), 0) rate from review group by cafe_id) r" +
             " on c.id = r.cafe_id order by c.liked_count desc", nativeQuery = true)
