@@ -7,12 +7,12 @@ pipeline {
        CREDENTIALS_ID = 'gke'
     }
     stages {
-        stage('Checkout code') {
+        stage("Checkout code") {
             steps {
                 checkout scm
             }
         }
-        stage('build gradle') {
+        stage("build gradle") {
             steps {
                 sh 'chmod +x gradlew'
                 sh  './gradlew clean bootJar'
@@ -36,7 +36,7 @@ pipeline {
         stage("Push image") {
             steps {
                 script{
-                    docker.withRegistry('https://registry.hub.docker.com','docker hub'){
+                    docker.withRegistry('https://registry.hub.docker.com','docker-juu924'){
                         app.push("latest")
                     }
                 }
