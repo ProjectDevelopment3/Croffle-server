@@ -54,8 +54,8 @@ public class ReportService {
     public Long saveMenu(ReportCafeDto reportCafeDto, Long cafe_id) {
         for (int i = 0; i < reportCafeDto.getMenuList().size(); i++) {
             ReportMenuDto reportMenuDto = reportCafeDto.getMenuList().get(i);
-            menuRepository.save(reportMenuDto.toEntity());
             reportMenuDto.setCafeId(cafe_id);
+            menuRepository.save(reportMenuDto.toEntity());
         }
         return cafe_id;
     }
