@@ -38,6 +38,7 @@ pipeline {
                     croffle.push("latest")
                 }
             }
+          }
         }
         stage('Deploy to GKE'){
             when {
@@ -48,4 +49,4 @@ pipeline {
             }
         }
     }
-}
+  }
