@@ -28,14 +28,14 @@ pipeline {
         }
         stage('Build image'){
             steps {
-                croffle = docker.build("juu924/croffle")
+                app = docker.build("juu924/croffle")
             }
         }
         stage("Push image") {
             steps {
                 script{
                     docker.withRegistry('https://registry.hub.docker.com','docker hub'){
-                    croffle.push("latest")
+                    app.push("latest")
                 }
             }
           }
