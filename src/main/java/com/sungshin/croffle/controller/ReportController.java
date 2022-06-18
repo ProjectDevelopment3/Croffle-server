@@ -35,7 +35,7 @@ public class ReportController {
     public Response cafe(Authentication authentication, @RequestBody ReportCafeDto reportCafeDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         boolean diff = reportService.diffName(reportCafeDto.getCafeName());
-        Long cafe_id = reportService.getcafeId(reportCafeDto.getCafeName());
+        Long cafe_id = reportService.getCafeId(reportCafeDto.getCafeName());
 
         if (diff == false) {
             //등록된 카페가 없으면 카페 저장
@@ -81,7 +81,7 @@ public class ReportController {
     public Response menu(Authentication authentication,
                          @RequestBody ReportCafeDto reportCafeDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        Long cafe_id = reportService.getcafeId(reportCafeDto.getCafeName());
+        Long cafe_id = reportService.getCafeId(reportCafeDto.getCafeName());
         reportService.saveMenu(reportCafeDto,cafe_id);
         return Response.builder()
                 .code("201")

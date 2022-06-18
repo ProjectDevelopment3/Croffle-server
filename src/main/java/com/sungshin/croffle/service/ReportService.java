@@ -37,7 +37,7 @@ public class ReportService {
     }
 
     @Transactional
-    public Long getcafeId(String cafeName) {
+    public Long getCafeId(String cafeName) {
         return cafeRepository.findByName(cafeName).orElseThrow(()->new IllegalArgumentException("해당하는 카페가 없습니다.")).getId();
     }
 
