@@ -21,7 +21,6 @@ public class MenuService {
     private final MenuRepository menuRepository;
     private final UserRepository userRepository;
 
-
     /**사장님 서비스 -메뉴 관련 기능 **/
 
     @Transactional(readOnly = true)
@@ -74,7 +73,5 @@ public class MenuService {
         }
         return cafe_id;
     }
-
-
 
 }

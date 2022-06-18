@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SearchCafeInfoDto {
 
+    private Long id;
     private String cafeName;
     private String cafeAddr;
     private String cafeTelephone;
@@ -16,6 +17,7 @@ public class SearchCafeInfoDto {
 
 
     public SearchCafeInfoDto(Cafe entity){
+        this.id = entity.getId();
         this.cafeName = entity.getName();
         this.cafeAddr = entity.getAddr();
         this.cafeTelephone = entity.getTelephone();
