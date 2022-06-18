@@ -4,6 +4,7 @@ import com.sungshin.croffle.config.auth.UserPrincipal;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.stamp.AddStampRequestDto;
 import com.sungshin.croffle.dto.stamp.StampListDto;
+import com.sungshin.croffle.service.OwnerService;
 import com.sungshin.croffle.service.StampService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +21,7 @@ import java.util.Collections;
 public class StampController {
 
     private final StampService stampService;
+    private final OwnerService ownerService;
 
     @GetMapping("/stamps")
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -37,6 +39,12 @@ public class StampController {
     public Response addStamp(@RequestBody AddStampRequestDto stampRequestDto,
                              Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        if (!ownerService.ownerCafeIdCheck(userPrincipal.getId(), stampRequestDto.getCafeId())) {
+            return Response.builder()
+                    .code("4000")
+                    .messages("Owner 의 cafeId 가 아닙니다.")
+                    .build();
+        }
         stampService.addStamp(stampRequestDto.getCafeId(), stampRequestDto.getUserId());
         return Response.builder()
                 .code("201")
