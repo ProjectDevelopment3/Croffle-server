@@ -10,13 +10,13 @@ public class SearchMenuDto {
     private Long menuId;
     private String menuName;
     private String menuPrice;
-    private int checked;
+    private boolean checked;
 
    public SearchMenuDto(Menu entity){
        this.menuId = entity.getId();
        this.menuName = entity.getName();
        this.menuPrice = entity.getPrice();
-       this.checked = entity.getChecked();
+       this.checked = entity.isChecked();
    }
 
 }

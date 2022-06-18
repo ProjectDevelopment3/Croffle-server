@@ -23,10 +23,12 @@ public class CafeService {
     private final CafeRepository cafeRepository;
     private final LikedCafeRepository likedCafeRepository;
     private final UserRepository userRepository;
+    private final MenuService menuService;
 
     @Transactional(readOnly = true)
     public List<CafeListDto> findCafes() {
         List<Cafe> cafeList = cafeRepository.findAllByChecked(true);
+        System.out.println(cafeList);
         return cafeList.stream().map(CafeListDto::new).collect(Collectors.toList());
     }
 
@@ -38,9 +40,12 @@ public class CafeService {
 
     @Transactional(readOnly = true)
     public CafeDetailDto cafeDetailSearch(Long cafe_id) {
-        return new CafeDetailDto(
-                cafeRepository.findById(cafe_id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카페 id입니다.")));
+        System.out.println(cafe_id);
+        Cafe cafe = cafeRepository.findByIdAndChecked(cafe_id, true)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카페 id입니다."));
+        CafeDetailDto cafeDetailDto = new CafeDetailDto(cafe);
+        cafeDetailDto.setMenuListDtos(menuService.getCheckedMenuList(cafeDetailDto.getId()));
+        return cafeDetailDto;
     }
 
     @Transactional(readOnly = true)

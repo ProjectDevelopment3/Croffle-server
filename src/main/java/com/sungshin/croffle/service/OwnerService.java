@@ -60,7 +60,6 @@ public class OwnerService {
         return stampUserInfoDto;
     }
 
-
     @Transactional(readOnly = true)
     public boolean checkedOwner(OwnerCheckRequestDto checkRequestDto, Long userId) {
         String userName = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 User id 입니다."))
