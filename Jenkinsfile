@@ -1,10 +1,10 @@
 pipeline {
     agent any
     environment {
-       PROJECT_ID = 'silent-octagon-344103'
-       CLUSTER_NAME = 'k8s'
-       LOCATION = 'asia-northeast3-a'
-       CREDENTIALS_ID = 'gke'
+        PROJECT_ID = 'silent-octagon-344103'
+        CLUSTER_NAME = 'k8s'
+        LOCATION = 'asia-northeast3-a'
+        CREDENTIALS_ID = 'gke'
     }
     stages {
         stage("Checkout code") {
