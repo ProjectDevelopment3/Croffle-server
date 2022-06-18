@@ -4,7 +4,7 @@ pipeline {
        PROJECT_ID = 'silent-octagon-344103'
        CLUSTER_NAME = 'k8s'
        LOCATION = 'asia-northeast3-a'
-       CREDENTIALS_ID = 'juu924'
+       CREDENTIALS_ID = 'gke'
     }
     stages {
         stage('Checkout code') {
