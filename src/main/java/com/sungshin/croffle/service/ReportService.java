@@ -24,12 +24,40 @@ public class ReportService {
     }
 
     @Transactional
-    public Long saveMenu(ReportCafeDto reportCafeDto){
-        for(int i = 0; i < reportCafeDto.getMenuList().size(); i++){
+    public Long saveCafe(ReportCafeDto reportCafeDto) {
+        return cafeRepository.save(reportCafeDto.toEntity()).getId();
+    }
+
+    @Transactional
+    public boolean diffName(String cafeName) {
+        if (cafeRepository.findByName(cafeName) != null) {
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public Long getcafeId(String cafeName) {
+        return cafeRepository.findByName(cafeName).orElseThrow(()->new IllegalArgumentException("해당하는 카페가 없습니다.")).getId();
+    }
+
+    @Transactional
+    public boolean searchMenu(ReportCafeDto reportCafeDto){
+        if(reportCafeDto.getMenuList().get(0) != null){
+            return true;
+        }
+        return false;
+    }
+
+
+    @Transactional
+    public Long saveMenu(ReportCafeDto reportCafeDto, Long cafe_id) {
+        for (int i = 0; i < reportCafeDto.getMenuList().size(); i++) {
             ReportMenuDto reportMenuDto = reportCafeDto.getMenuList().get(i);
             menuRepository.save(reportMenuDto.toEntity());
+            reportMenuDto.setCafeId(cafe_id);
         }
-        return cafeRepository.save(reportCafeDto.toEntity()).getId();
+        return cafe_id;
     }
 
 }
