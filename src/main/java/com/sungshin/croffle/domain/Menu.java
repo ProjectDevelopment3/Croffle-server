@@ -3,6 +3,7 @@ package com.sungshin.croffle.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -23,10 +24,12 @@ public class Menu {
     @Column(length = 20, nullable = false)
     private String price;
 
-    private int checked;
+    @Column(columnDefinition = "TINYINT(1)")
+    @ColumnDefault("0")
+    private boolean checked;
 
     @Builder
-    public Menu(Long cafe_id, String name, String price, int checked){
+    public Menu(Long cafe_id, String name, String price, boolean checked){
         this.cafeId = cafe_id;
         this.name = name;
         this.price = price;

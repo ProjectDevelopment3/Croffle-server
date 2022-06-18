@@ -30,7 +30,7 @@ public class ReportService {
 
     @Transactional
     public boolean diffName(String cafeName) {
-        if (cafeRepository.findByName(cafeName) != null) {
+        if(cafeRepository.findByName(cafeName).isPresent()){
             return true;
         }
         return false;

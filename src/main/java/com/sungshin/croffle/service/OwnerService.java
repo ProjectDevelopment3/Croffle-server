@@ -2,13 +2,13 @@ package com.sungshin.croffle.service;
 
 import com.sungshin.croffle.config.ApiKey;
 import com.sungshin.croffle.domain.Cafe;
-import com.sungshin.croffle.domain.Menu;
 import com.sungshin.croffle.domain.jpa.CafeRepository;
-import com.sungshin.croffle.domain.jpa.MenuRepository;
 import com.sungshin.croffle.domain.jpa.UserRepository;
 import com.sungshin.croffle.domain.user.Role;
 import com.sungshin.croffle.domain.user.User;
 import com.sungshin.croffle.dto.owner.*;
+import com.sungshin.croffle.dto.user.StampRequestDto;
+import com.sungshin.croffle.dto.user.StampUserInfoDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
@@ -17,7 +17,6 @@ import okhttp3.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +27,6 @@ import java.util.Map;
 @Slf4j
 public class OwnerService {
     private final CafeRepository cafeRepository;
-    private final MenuRepository menuRepository;
     private final UserRepository userRepository;
     private final ApiKey apiKey;
 
@@ -39,18 +37,6 @@ public class OwnerService {
         return info;
     }
 
-    @Transactional(readOnly = true)
-    public List<SearchMenuDto> getMenuList(Long userId) {
-        Long cafeId = userRepository.findById(userId).orElseThrow().getOwner();
-        List<SearchMenuDto> menuList = new ArrayList<SearchMenuDto>();
-        List<Menu> menus = menuRepository.findByCafeId(cafeId);
-        for (int i = 0; i < menus.size(); i++) {
-            Menu menu = (menus.get(i));
-            menuList.add(new SearchMenuDto(menu));
-        }
-        return menuList;
-    }
-
     @Transactional
     public Long updateInfo(Long id, UpdateInfoDto updateInfoDto) {
         Cafe cafe = cafeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 카페가 없습니다. id = " + id));
@@ -58,23 +44,20 @@ public class OwnerService {
         return id;
     }
 
-    @Transactional
-    public Long addMenu(CreateMenuDto createMenuDto) {
-        return menuRepository.save(createMenuDto.toEntity()).getId();
-    }
-
     @Transactional(readOnly = true)
-    public SearchMenuDto getMenu(Long id) {
-        Menu menu = menuRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴 입니다. id = " + id));
-        SearchMenuDto searchMenuDto = new SearchMenuDto(menu);
-        return searchMenuDto;
+    public Long searchNum(StampRequestDto stampRequestDto){
+        return userRepository.findByPhone(stampRequestDto.getTelephone())
+                .orElseThrow(()->new IllegalArgumentException("해당하는 회원이 없습니다.")).getId();
     }
 
     @Transactional
-    public Long updateMenu(Long id, Long userid, UpdateMenuDto updateMenuDto) {
-        Menu menu = menuRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 메뉴가 없습니다. id=" + id));
-        menu.update(updateMenuDto.getMenuName(), updateMenuDto.getMenuPrice());
-        return id;
+    public StampUserInfoDto getUserAndStampInfo(StampRequestDto stampRequestDto){
+        Long id = userRepository.findByPhone(stampRequestDto.getTelephone())
+                .orElseThrow(()-> new IllegalArgumentException("해당 하는 회원이 없습니다."))
+                .getId();
+        StampUserInfoDto stampUserInfoDto = userRepository.findUserById(id, stampRequestDto.getCafeId())
+            .orElseThrow(()-> new IllegalArgumentException("해당 하는 회원이 없습니다."));
+        return stampUserInfoDto;
     }
 
     @Transactional(readOnly = true)
