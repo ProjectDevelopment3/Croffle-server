@@ -36,10 +36,10 @@ public class ReportController {
     @PreAuthorize("hasRole('ROLE_USER')")
     public Response cafe(Authentication authentication, @RequestBody ReportCafeDto reportCafeDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        Long diff = reportService.diffName(reportCafeDto.getCafeName());
+        boolean diff = reportService.diffName(reportCafeDto.getCafeName());
         Long cafe_id = reportService.getCafeId(reportCafeDto.getCafeName());
 
-        if (diff < 0L) {
+        if (diff == false) {
             //등록된 카페가 없으면 카페 저장
             reportService.saveCafe(reportCafeDto);
             if (menuService.searchMenu(reportCafeDto) == true) {
