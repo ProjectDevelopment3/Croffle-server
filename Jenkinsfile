@@ -28,17 +28,19 @@ pipeline {
         }
         stage('Build image'){
             steps {
-                app = docker.build("juu924/croffle")
+                script {
+                    app = docker.build("juu924/croffle")
+                }
             }
         }
         stage("Push image") {
             steps {
                 script{
                     docker.withRegistry('https://registry.hub.docker.com','docker hub'){
-                    app.push("latest")
+                        app.push("latest")
+                    }
                 }
             }
-          }
         }
         stage('Deploy to GKE'){
             when {
