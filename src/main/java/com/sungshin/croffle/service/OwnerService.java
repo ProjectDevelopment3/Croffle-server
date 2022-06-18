@@ -55,7 +55,8 @@ public class OwnerService {
         Long id = userRepository.findByPhone(stampRequestDto.getTelephone())
                 .orElseThrow(()-> new IllegalArgumentException("해당 하는 회원이 없습니다."))
                 .getId();
-        StampUserInfoDto stampUserInfoDto = userRepository.findUserById(id, stampRequestDto.getCafeId());
+        StampUserInfoDto stampUserInfoDto = userRepository.findUserById(id, stampRequestDto.getCafeId())
+            .orElseThrow(()-> new IllegalArgumentException("해당 하는 회원이 없습니다."));
         return stampUserInfoDto;
     }
 
