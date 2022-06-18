@@ -3,6 +3,9 @@ package com.sungshin.croffle.controller;
 import com.sungshin.croffle.config.auth.UserPrincipal;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.owner.*;
+import com.sungshin.croffle.dto.user.StampRequestDto;
+import com.sungshin.croffle.dto.user.StampUserInfoDto;
+import com.sungshin.croffle.service.MenuService;
 import com.sungshin.croffle.service.OwnerService;
 import com.sungshin.croffle.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import java.util.Collections;
 public class OwnerController {
     private final OwnerService ownerService;
     private final UserService userService;
+    private final MenuService menuService;
 
     //사장님 서비스 가게 정보 조회
     @GetMapping("/owner/cafe")
@@ -44,23 +48,22 @@ public class OwnerController {
                 .build();
     }
 
-    //사장님 서비스 메뉴 개별 조회
+    //사장님 서비스 메뉴 조회
     @GetMapping("/owner/menus")
     public Response<SearchMenuDto> getCafeMenu(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Response.<SearchMenuDto>builder()
                 .code("200")
                 .messages("메뉴 조회에 성공하였습니다.")
-                .data(ownerService.getMenuList(userPrincipal.getId()))
+                .data(menuService.getMenuList(userPrincipal.getId()))
                 .build();
     }
 
     //사장님 서비스 메뉴 추가
     @PostMapping("/owner/menu")
-    public Response addMenu(Authentication authentication,@RequestBody CreateMenuDto createMenuDto) {
+    public Response addMenu(Authentication authentication, @RequestBody CreateMenuDto createMenuDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-
-        ownerService.addMenu(createMenuDto);
+        menuService.addMenu(createMenuDto);
         return Response.builder()
                 .code("201")
                 .messages("메뉴 추가가 완료 되었습니다.")
@@ -71,11 +74,11 @@ public class OwnerController {
     @PutMapping("/owner/menu/{id}")
     public Response updateMenu(Authentication authentication, @PathVariable Long id, @RequestBody UpdateMenuDto menuDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        ownerService.updateMenu(id,userPrincipal.getId(), menuDto);
+        menuService.updateMenu(id, userPrincipal.getId(), menuDto);
         return Response.builder()
                 .code("201")
                 .messages("메뉴 수정이 완료 되었습니다.")
-                .data(Collections.singletonList(ownerService.getMenu(id)))
+                .data(Collections.singletonList(menuService.getMenu(id)))
                 .build();
     }
 
@@ -95,5 +98,24 @@ public class OwnerController {
                 .messages("사장님 인증이 완료되었습니다.")
                 .build();
     }
+
+    //사장님 서비스 회원 조회
+    @PostMapping("/owner/find-user")
+    public Response checkUser(@RequestBody StampRequestDto stampRequestDto) {
+        if (ownerService.searchNum(stampRequestDto) < 0L) {
+            return Response.builder()
+                    .code("4000")
+                    .messages("존재하지 않는 회원입니다.")
+                    .build();
+        }
+
+        return Response.<StampUserInfoDto>builder()
+                .code("200")
+                .messages("스탬프 적립이 가능한 회원 입니다.")
+                .data(Collections.singletonList(ownerService.getUserAndStampInfo(stampRequestDto)))
+                .build();
+
+    }
+
 
 }
