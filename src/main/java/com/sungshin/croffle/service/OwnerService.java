@@ -45,11 +45,9 @@ public class OwnerService {
     }
 
     @Transactional(readOnly = true)
-    public boolean searchNum(StampRequestDto stampRequestDto){
-        if(userRepository.findByPhone(stampRequestDto.getTelephone()) != null) {
-            return true;
-        }
-        return false;
+    public Long searchNum(StampRequestDto stampRequestDto){
+        return userRepository.findByPhone(stampRequestDto.getTelephone())
+                .orElseThrow(()->new IllegalArgumentException("해당하는 회원이 없습니다.")).getId();
     }
 
     @Transactional

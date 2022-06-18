@@ -61,7 +61,7 @@ public class OwnerController {
 
     //사장님 서비스 메뉴 추가
     @PostMapping("/owner/menu")
-    public Response addMenu(Authentication authentication,@RequestBody CreateMenuDto createMenuDto) {
+    public Response addMenu(Authentication authentication, @RequestBody CreateMenuDto createMenuDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         menuService.addMenu(createMenuDto);
         return Response.builder()
@@ -74,7 +74,7 @@ public class OwnerController {
     @PutMapping("/owner/menu/{id}")
     public Response updateMenu(Authentication authentication, @PathVariable Long id, @RequestBody UpdateMenuDto menuDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        menuService.updateMenu(id,userPrincipal.getId(), menuDto);
+        menuService.updateMenu(id, userPrincipal.getId(), menuDto);
         return Response.builder()
                 .code("201")
                 .messages("메뉴 수정이 완료 되었습니다.")
@@ -101,20 +101,20 @@ public class OwnerController {
 
     //사장님 서비스 회원 조회
     @PostMapping("/owner/find-user")
-    public Response checkUser(@RequestBody StampRequestDto stampRequestDto){
-        if(ownerService.searchNum(stampRequestDto) == true){
-            return Response.<StampUserInfoDto>builder()
-                    .code("200")
-                    .messages("스탬프 적립이 가능한 회원 입니다.")
-                    .data(Collections.singletonList(ownerService.getUserAndStampInfo(stampRequestDto)))
+    public Response checkUser(@RequestBody StampRequestDto stampRequestDto) {
+        if (ownerService.searchNum(stampRequestDto) < 0L) {
+            return Response.builder()
+                    .code("4000")
+                    .messages("존재하지 않는 회원입니다.")
                     .build();
         }
 
-        return Response.builder()
-                .code("4000")
-                .messages("존재하지 않는 회원입니다.")
+        return Response.<StampUserInfoDto>builder()
+                .code("200")
+                .messages("스탬프 적립이 가능한 회원 입니다.")
+                .data(Collections.singletonList(ownerService.getUserAndStampInfo(stampRequestDto)))
                 .build();
-        
+
     }
 
 

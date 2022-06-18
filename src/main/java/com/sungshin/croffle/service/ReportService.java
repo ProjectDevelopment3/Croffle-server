@@ -29,11 +29,9 @@ public class ReportService {
     }
 
     @Transactional
-    public boolean diffName(String cafeName) {
-        if (cafeRepository.findByName(cafeName) != null) {
-            return true;
-        }
-        return false;
+    public Long diffName(String cafeName) {
+        return cafeRepository.findByName(cafeName)
+                .orElseThrow(()->new IllegalArgumentException("해당 하는 카페가 없습니다.")).getId();
     }
 
     @Transactional
