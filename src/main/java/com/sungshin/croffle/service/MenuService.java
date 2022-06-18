@@ -32,7 +32,7 @@ public class MenuService {
     public List<SearchMenuDto> getMenuList(Long userId) {
         Long cafeId = userRepository.findById(userId).orElseThrow().getOwner();
         List<SearchMenuDto> menuList = new ArrayList<SearchMenuDto>();
-        List<Menu> menus = menuRepository.findAllByCafeId(cafeId);
+        List<Menu> menus = menuRepository.findAllByCafeIdAndAndChecked(cafeId, true);
         for (int i = 0; i < menus.size(); i++) {
             Menu menu = (menus.get(i));
             menuList.add(new SearchMenuDto(menu));
