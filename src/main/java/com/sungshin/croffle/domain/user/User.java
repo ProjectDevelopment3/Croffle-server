@@ -30,20 +30,21 @@ public class User {
     private String profileUrl;
 
     @ColumnDefault("0")
-    private int owner;
+    private Long owner;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
     @Builder
-    public User(Long id, String naverId, String name, String nickname, String phone, String profileUrl, Role role) {
+    public User(Long id, String naverId, String nickname, String name, String phone, String profileUrl, Long owner, Role role) {
         this.id = id;
         this.naverId = naverId;
-        this.name = name;
         this.nickname = nickname;
+        this.name = name;
         this.phone = phone;
         this.profileUrl = profileUrl;
+        this.owner = owner;
         this.role = role;
     }
 
@@ -61,6 +62,11 @@ public class User {
 
     public String getRoleKey() {
         return this.role.getKey();
+    }
+
+    public void updateOwner(Role role, Long cafeId) {
+        this.role = role;
+        this.owner = cafeId;
     }
 
     @Override

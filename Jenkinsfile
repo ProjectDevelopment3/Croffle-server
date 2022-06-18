@@ -1,20 +1,51 @@
-node{
-	def app
-	stage('Clone repository') {
-	git 'https://github.com/ProjectDevelopment3/Croffle-server.git'
-	}
-	stage('Build image'){
-	app = docker.build("juu924/croffle-backend")
-	}
-	stage('Test image'){
-	app.inside {
-	   echo 'Test image...'
-	  }
-	}
-   	stage('Push image'){
-	   docker.withRegistry('https://hub.docker.com/', 'juu924'){
-	     app.push("${env.BUILD_NUMBER}")
-             app.push("latest")
-           }
-	 }
+pipeline {
+    agent any
+    environment {
+       PROJECT_ID = 'silent-octagon-344103'
+       CLUSTER_NAME = 'k8s'
+       LOCATION = 'asia-northeast3-a'
+       CREDENTIALS_ID = 'juu924'
     }
+    stages {
+        stage('Checkout code') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('build gradle') {
+            steps {
+                sh 'chmod +x gradlew'
+                sh  './gradlew clean build'
+            }
+            post {
+                success {
+                    echo 'gradle build success'
+                }
+                failure {
+                    echo 'gradle build failed'
+                }
+            }
+        }
+        stage('Build image'){
+            steps {
+                croffle = docker.build("juu924/croffle")
+            }
+        }
+        stage("Push image") {
+            steps {
+                script{
+                    docker.withRegistry('https://registry.hub.docker.com','docker hub'){
+                    croffle.push("latest")
+                }
+            }
+        }
+        stage('Deploy to GKE'){
+            when {
+                branch 'main'
+            }
+            steps{
+                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+            }
+        }
+    }
+}

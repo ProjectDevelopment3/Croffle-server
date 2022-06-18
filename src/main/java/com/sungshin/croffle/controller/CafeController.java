@@ -33,7 +33,7 @@ public class CafeController {
         List<CafeListDto> list = cafeService.findByCafeName(name);
         if (list.size() == 0) {
             return Response.<CafeListDto>builder()
-                    .code("200")
+                    .code("4040")
                     .messages("일치하는 카페가 없습니다.")
                     .data(list)
                     .build();

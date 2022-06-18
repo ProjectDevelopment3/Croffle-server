@@ -40,6 +40,7 @@ public class BoardServiceTest {
                 .name("testuser")
                 .naverId("testtesttesttest")
                 .nickname("testnickname")
+                .owner(0L)
                 .role(Role.USER)
                 .build();
         user = userRepository.save(user);
