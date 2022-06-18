@@ -4,6 +4,7 @@ import com.sungshin.croffle.config.auth.UserPrincipal;
 import com.sungshin.croffle.dto.Response;
 import com.sungshin.croffle.dto.report.InfoReportDto;
 import com.sungshin.croffle.dto.report.ReportCafeDto;
+import com.sungshin.croffle.service.MenuService;
 import com.sungshin.croffle.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReportController {
 
     private final ReportService reportService;
+    private final MenuService menuService;
 
     @PostMapping("/report/info")
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -40,8 +42,8 @@ public class ReportController {
         if (diff == false) {
             //등록된 카페가 없으면 카페 저장
             reportService.saveCafe(reportCafeDto);
-            if (reportService.searchMenu(reportCafeDto) == true) {
-                reportService.saveMenu(reportCafeDto, cafe_id);
+            if (menuService.searchMenu(reportCafeDto) == true) {
+                menuService.saveMenu(reportCafeDto, cafe_id);
                 return Response.builder()
                         .code("200")
                         .messages("카페와 메뉴가 제보되었습니다.")
@@ -58,8 +60,8 @@ public class ReportController {
         }
         else{
             //등록된 카페가 있을 때
-            if(reportService.searchMenu(reportCafeDto) == true) {
-                reportService.saveMenu(reportCafeDto, cafe_id);
+            if(menuService.searchMenu(reportCafeDto) == true) {
+                menuService.saveMenu(reportCafeDto, cafe_id);
                 return Response.builder()
                         .code("200")
                         .messages("메뉴가 제보되었습니다.")
@@ -82,7 +84,7 @@ public class ReportController {
                          @RequestBody ReportCafeDto reportCafeDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         Long cafe_id = reportService.getCafeId(reportCafeDto.getCafeName());
-        reportService.saveMenu(reportCafeDto,cafe_id);
+        menuService.saveMenu(reportCafeDto,cafe_id);
         return Response.builder()
                 .code("201")
                 .messages("메뉴 제보하기에 성공하였습니다.")
