@@ -47,11 +47,11 @@ public class ReportController {
                         .messages("카페와 메뉴가 제보되었습니다.")
                         .build();
             } else {
-                //카페가 이미 등록되어 있는 경우, 메뉴만 제보
-                reportService.saveMenu(reportCafeDto, cafe_id);
+                //카페만 등록
+                reportService.saveCafe(reportCafeDto);
                 return Response.builder()
-                        .code("200")
-                        .messages("메뉴가 제보되었습니다.")
+                        .code("4000")
+                        .messages("카페 제보에 실패 했습니다. : 메뉴가 제보 되지 않았습니다.")
                         .build();
             }
 
