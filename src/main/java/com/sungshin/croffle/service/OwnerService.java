@@ -44,7 +44,7 @@ public class OwnerService {
         Long cafeId = userRepository.findById(userId).orElseThrow().getOwner();
         List<SearchMenuDto> menuList = new ArrayList<SearchMenuDto>();
         List<Menu> menus = menuRepository.findByCafeId(cafeId);
-        for (int i = 0; i <menus.size(); i++) {
+        for (int i = 0; i < menus.size(); i++) {
             Menu menu = (menus.get(i));
             menuList.add(new SearchMenuDto(menu));
         }
@@ -71,7 +71,7 @@ public class OwnerService {
     }
 
     @Transactional
-    public Long updateMenu(Long id, Long userid , UpdateMenuDto updateMenuDto) {
+    public Long updateMenu(Long id, Long userid, UpdateMenuDto updateMenuDto) {
         Menu menu = menuRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 메뉴가 없습니다. id=" + id));
         menu.update(updateMenuDto.getMenuName(), updateMenuDto.getMenuPrice());
         return id;
@@ -130,4 +130,12 @@ public class OwnerService {
         user.updateOwner(Role.OWNER, cafeId);
     }
 
+    @Transactional(readOnly = true)
+    public boolean ownerCafeIdCheck(Long userId, Long cafeId) {
+        Long realCafeId = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 user id")).getOwner();
+        if (realCafeId == cafeId) {
+            return true;
+        }
+        return false;
+    }
 }
