@@ -34,6 +34,8 @@ public interface CafeRepository extends JpaRepository<Cafe, Long> {
             " on c.id = r.cafe_id order by c.liked_count desc", nativeQuery = true)
     List<CafeRecommendWrapper> cafeRecommendOrderByLiked();
 
+    Optional<Cafe> findByIdAndChecked(Long id, boolean check);
+
     Optional<Cafe> findByName(String name);
 
     Optional<Cafe> findByAddr(String addr);

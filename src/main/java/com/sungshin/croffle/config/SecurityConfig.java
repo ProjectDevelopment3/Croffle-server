@@ -90,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                    .antMatchers("/review", "/report/**", "/likes/**", "/user/**",
 //                        "/nickname", "/stamps", "/coupons", "/board/**", "/owner/verify")
 //                        .hasAnyRole(Role.USER.name(), Role.OWNER.name(), Role.ADMIN.name())
-                    .antMatchers("/", "/boards", "/cafes", "/cafe",
+                    .antMatchers("/", "/boards", "/cafes", "/cafe", "/cafe/**",
                             "/cafe/recommend", "/review/list", "/nickname/verify", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs")
                     .permitAll()
 //                .anyRequest().authenticated()
