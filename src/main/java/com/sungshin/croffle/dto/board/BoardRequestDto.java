@@ -10,7 +10,6 @@ import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
-
 public class BoardRequestDto {
 
     @JsonIgnore

@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 @Getter
 public class SearchReviewDto {
     private Long id;
-    private String author;
     private int rate;
     private String content;
     private LocalDateTime createdDate;

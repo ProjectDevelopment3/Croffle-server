@@ -4,16 +4,13 @@ import com.sungshin.croffle.domain.Report;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @NoArgsConstructor
 public class InfoReportDto {
     private Long cafeId;
     private String content;
     private String category;
-
 
     public Report toEntity(Long userId) {
         return Report.builder()
