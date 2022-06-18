@@ -1,5 +1,5 @@
 # Croffle-backend
-Croffle Expedition
+Croffle Expedition/ 크로플 원정대
 
 ### 실행 전 세팅
 #### application-oauth.properties 파일 생성
