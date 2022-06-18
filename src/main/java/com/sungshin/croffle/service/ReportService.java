@@ -39,23 +39,5 @@ public class ReportService {
         return cafeRepository.findByName(cafeName).orElseThrow(()->new IllegalArgumentException("해당하는 카페가 없습니다.")).getId();
     }
 
-    @Transactional
-    public boolean searchMenu(ReportCafeDto reportCafeDto){
-        if(reportCafeDto.getMenuList().get(0) != null){
-            return true;
-        }
-        return false;
-    }
-
-
-    @Transactional
-    public Long saveMenu(ReportCafeDto reportCafeDto, Long cafe_id) {
-        for (int i = 0; i < reportCafeDto.getMenuList().size(); i++) {
-            ReportMenuDto reportMenuDto = reportCafeDto.getMenuList().get(i);
-            reportMenuDto.setCafeId(cafe_id);
-            menuRepository.save(reportMenuDto.toEntity());
-        }
-        return cafe_id;
-    }
 
 }

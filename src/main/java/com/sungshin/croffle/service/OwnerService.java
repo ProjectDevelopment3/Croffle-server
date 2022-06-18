@@ -113,4 +113,12 @@ public class OwnerService {
         user.updateOwner(Role.OWNER, cafeId);
     }
 
+    @Transactional(readOnly = true)
+    public boolean ownerCafeIdCheck(Long userId, Long cafeId) {
+        Long realCafeId = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 user id")).getOwner();
+        if (realCafeId == cafeId) {
+            return true;
+        }
+        return false;
+    }
 }
