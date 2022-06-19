@@ -1,13 +1,17 @@
 package com.sungshin.croffle.dto.report;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sungshin.croffle.domain.Menu;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Getter
 @NoArgsConstructor
-public class ReportMenuDto {
+public class ReportMenuDto implements Serializable {
+    @JsonIgnore
     private Long cafeId;
     private String name;
     private String price;

@@ -41,7 +41,7 @@ public class ReportController {
 
         if (diff == false) {
             //등록된 카페가 없으면 카페 저장
-            reportService.saveCafe(reportCafeDto);
+            cafe_id = reportService.saveCafe(reportCafeDto);
             if (menuService.searchMenu(reportCafeDto) == true) {
                 menuService.saveMenu(reportCafeDto, cafe_id);
                 return Response.builder()
@@ -50,7 +50,7 @@ public class ReportController {
                         .build();
             } else {
                 //카페만 등록
-                reportService.saveCafe(reportCafeDto);
+                cafe_id = reportService.saveCafe(reportCafeDto);
                 return Response.builder()
                         .code("4000")
                         .messages("카페 제보에 실패 했습니다. : 메뉴가 제보 되지 않았습니다.")

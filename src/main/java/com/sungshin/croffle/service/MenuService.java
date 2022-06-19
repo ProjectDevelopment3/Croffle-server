@@ -68,7 +68,7 @@ public class MenuService {
 
     @Transactional(readOnly = true)
     public boolean searchMenu(ReportCafeDto reportCafeDto) {
-        if (reportCafeDto.getMenuList().get(0) != null) {
+        if (reportCafeDto.getMenuList() != null) {
             return true;
         }
         return false;
@@ -76,11 +76,9 @@ public class MenuService {
 
     @Transactional
     public Long saveMenu(ReportCafeDto reportCafeDto, Long cafe_id) {
-        for (int i = 0; i < reportCafeDto.getMenuList().size(); i++) {
-            ReportMenuDto reportMenuDto = reportCafeDto.getMenuList().get(i);
-            reportMenuDto.setCafeId(cafe_id);
-            menuRepository.save(reportMenuDto.toEntity());
-        }
+        ReportMenuDto reportMenuDto = reportCafeDto.getMenuList();
+        reportMenuDto.setCafeId(cafe_id);
+        menuRepository.save(reportMenuDto.toEntity());
         return cafe_id;
     }
 
