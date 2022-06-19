@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,7 +20,9 @@ public class CafeController {
     private final CafeService cafeService;
 
     @GetMapping("/cafes")
+    @PermitAll
     public Response<CafeListDto> findAllCafe() {
+        System.out.println("cafes");
         List<CafeListDto> cafes = cafeService.findCafes();
         return Response.<CafeListDto>builder()
                 .code("200")
@@ -29,6 +32,7 @@ public class CafeController {
     }
 
     @GetMapping("/cafe/search")
+    @PermitAll
     public Response<CafeListDto> findByCafeName(@RequestParam String name) {
         List<CafeListDto> list = cafeService.findByCafeName(name);
         if (list.size() == 0) {
@@ -46,6 +50,7 @@ public class CafeController {
     }
 
     @GetMapping("/cafe/{id}")
+    @PermitAll
     public Response<CafeDetailDto> cafedetails(@PathVariable Long id) {
         return Response.<CafeDetailDto>builder()
                 .code("200")
@@ -56,6 +61,7 @@ public class CafeController {
 
     // 카페 추천 기능
     @GetMapping("/cafe/recommend")
+    @PermitAll
     public Response<CafeRecommendWrapper> recommendCafe(@RequestParam String filter) {
         if (!filter.equals("liked") && !filter.equals("review")) {
             return Response.<CafeRecommendWrapper>builder()

@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class BoardController {
 
     //게시글 개별 조회
     @GetMapping("/board/{id}")
+    @PermitAll
     public Response<BoardSearchWrapper> findById(@PathVariable Long id) {
         List<BoardSearchWrapper> list = new ArrayList<BoardSearchWrapper>();
         list.add(boardService.getPost(id));
@@ -45,6 +47,7 @@ public class BoardController {
 
     //게시판 목록 조회
     @GetMapping("/boards")
+    @PermitAll
     public Response<BoardListWrapper> postList() {
         return Response.<BoardListWrapper>builder()
                 .code("200")

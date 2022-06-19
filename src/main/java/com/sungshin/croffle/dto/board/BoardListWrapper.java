@@ -8,6 +8,6 @@ public interface BoardListWrapper {
     Long getId();
     String getTitle();
     String getNickname();
-    BoardCategory getCategory();
+    String getCategory();
     LocalDateTime getModifiedDate();
 }
