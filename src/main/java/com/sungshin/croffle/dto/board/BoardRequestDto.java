@@ -2,7 +2,6 @@ package com.sungshin.croffle.dto.board;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sungshin.croffle.domain.board.Board;
-import com.sungshin.croffle.domain.board.BoardCategory;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,7 @@ public class BoardRequestDto {
     private Long userId;
     private String title;
     private String content;
-    private BoardCategory boardCategory;
+    private String boardCategory;
 
     public Board toEntity() {
         Board build = Board.builder()
@@ -29,7 +28,7 @@ public class BoardRequestDto {
     }
 
     @Builder
-    public BoardRequestDto(Long user_id, String title, String content, BoardCategory boardCategory){
+    public BoardRequestDto(Long user_id, String title, String content, String boardCategory){
         this.userId = user_id;
         this.title = title;
         this.content = content;

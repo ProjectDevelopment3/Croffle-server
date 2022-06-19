@@ -30,7 +30,7 @@ public class CafeServiceTest {
     @BeforeEach
     public void beforeEach() {
         Cafe cafe = Cafe.builder()
-                .name("테스트카페")
+                .name("테스트 카페")
                 .addr("서울시 강남구")
                 .build();
         cafeRepository.save(cafe);

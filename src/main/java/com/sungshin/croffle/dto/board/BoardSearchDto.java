@@ -2,7 +2,6 @@ package com.sungshin.croffle.dto.board;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sungshin.croffle.domain.board.Board;
-import com.sungshin.croffle.domain.board.BoardCategory;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -14,7 +13,7 @@ public class BoardSearchDto {
     private String nickName;
     private String content;
     private LocalDateTime modifiedDate;
-    private BoardCategory category;
+    private String category;
 
 
     public BoardSearchDto(Board board) {

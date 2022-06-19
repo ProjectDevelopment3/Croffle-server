@@ -42,7 +42,7 @@ public class OwnerController {
     //사장님 서비스 가게 정보 수정
     @PutMapping("/owner/cafe/{id}")
     @PreAuthorize("hasRole('ROLE_OWNER')")
-    public Response updateInfo(@PathVariable Long cafeId, UpdateInfoDto updateInfoDto) {
+    public Response updateInfo(@PathVariable Long cafeId, @RequestBody UpdateInfoDto updateInfoDto) {
         ownerService.updateInfo(cafeId, updateInfoDto);
         return Response.builder()
                 .code("201")
@@ -122,6 +122,5 @@ public class OwnerController {
                 .build();
 
     }
-
 
 }
