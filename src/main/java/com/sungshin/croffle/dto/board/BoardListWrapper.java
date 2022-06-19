@@ -1,7 +1,5 @@
 package com.sungshin.croffle.dto.board;
 
-import com.sungshin.croffle.domain.board.BoardCategory;
-
 import java.time.LocalDateTime;
 
 public interface BoardListWrapper {
