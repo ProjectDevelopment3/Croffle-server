@@ -1,7 +1,7 @@
 package com.sungshin.croffle.dto.user;
 
 public interface StampUserInfoDto {
-    Long getuserId();
+    Long getUserId();
     String getName();
-    int getstampCnt();
+    int getStampCnt();
 }

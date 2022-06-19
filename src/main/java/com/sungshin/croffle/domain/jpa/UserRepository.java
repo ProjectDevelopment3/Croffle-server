@@ -16,7 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByPhone(String phone);
 
-    @Query(value = "select u.id userId, u.name, s.stampCnt from user u" + " LEFT JOIN " + " stamp s" +
-            " on u.id = s.userId where u.id=:id and s.cafeId=:cafeId", nativeQuery = true)
+    @Query(value = "select u.id userId, u.name, s.stamp_cnt stampCnt from user u" + " LEFT JOIN " + " stamp s" +
+            " on u.id = s.user_id where u.id=:id and s.cafe_id=:cafeId", nativeQuery = true)
     Optional<StampUserInfoDto> findUserById(@Param("id") Long id, @Param("cafeId")Long cafeId);
 }
