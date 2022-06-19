@@ -10,6 +10,7 @@ pipeline {
         stage("Checkout code") {
             steps {
                 checkout scm
+                sh 'cp /var/jenkins_home/workspace/application-oauth.properties  /var/jenkins_home/workspace/docker-pipeline_main/src/main/resources/application-oauth.properties'
             }
         }
         stage("build gradle") {
