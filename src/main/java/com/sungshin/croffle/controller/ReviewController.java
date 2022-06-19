@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import java.util.List;
 
 @RestController
@@ -29,6 +30,7 @@ public class ReviewController {
     }
 
     @GetMapping("/review/{cafe_id}")
+    @PermitAll
     public Response<SearchReviewDto> searchReview(@PathVariable Long cafe_id){
         List<SearchReviewDto> reviewList = reviewService.searchReview(cafe_id);
        

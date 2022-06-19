@@ -40,6 +40,10 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
         if (StringUtils.isNotBlank(redirectUri_afterLogin)) {
             CookieUtils.addCookie(response, REDIRECT_URI_PARAM_COOKIE_NAME, redirectUri_afterLogin,
                     cookieExpireSeconds);
+        } else {
+            redirectUri_afterLogin = "http://localhost:3000";
+            CookieUtils.addCookie(response, REDIRECT_URI_PARAM_COOKIE_NAME, redirectUri_afterLogin,
+                    cookieExpireSeconds);
         }
     }
 

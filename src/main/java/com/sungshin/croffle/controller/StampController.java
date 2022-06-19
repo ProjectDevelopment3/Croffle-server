@@ -36,6 +36,7 @@ public class StampController {
     }
 
     @PostMapping("/owner/stamp")
+    @PreAuthorize("hasRole('ROLE_OWNER')")
     public Response addStamp(@RequestBody AddStampRequestDto stampRequestDto,
                              Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();

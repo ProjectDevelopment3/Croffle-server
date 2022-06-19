@@ -24,7 +24,6 @@ public class Report {
     @Column(length = 30, nullable = false)
     private String category;
 
-
     @Builder
     public Report(Long user_id, Long cafe_id, String content, String category) {
         this.userId = user_id;
