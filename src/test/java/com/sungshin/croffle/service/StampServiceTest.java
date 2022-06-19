@@ -35,6 +35,6 @@ public class StampServiceTest {
         int cnt = stampService.stampList(1L).size();
 
         // then
-        assertThat(stampService.stampList(1L).size()).isEqualTo(stampListDtos.size());
+        assertThat(cnt).isEqualTo(stampListDtos.size());
     }
 }
