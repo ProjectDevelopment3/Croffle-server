@@ -23,13 +23,12 @@ public class Board extends BaseTimeEntity {
     @Column(length=1500, nullable = false)
     private String content;
 
-    @Enumerated(EnumType.STRING)
-    private BoardCategory boardCategory;
+    private String boardCategory;
 
 
 
     @Builder
-    public Board(Long id, Long user_id, String title, String content, BoardCategory boardCategory){
+    public Board(Long id, Long user_id, String title, String content, String boardCategory){
         this.id = id;
         this.userId = user_id;
         this.title = title;
@@ -38,7 +37,7 @@ public class Board extends BaseTimeEntity {
 
     }
 
-    public void update(String title, String content,BoardCategory boardCategory){
+    public void update(String title, String content,String boardCategory){
         this.title = title;
         this.content = content;
         this.boardCategory = boardCategory;

@@ -1,6 +1,5 @@
 package com.sungshin.croffle.dto.board;
 
-import com.sungshin.croffle.domain.board.BoardCategory;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,10 +9,10 @@ import lombok.NoArgsConstructor;
 public class BoardUpdateDto {
     private String title;
     private String content;
-    private BoardCategory boardCategory;
+    private String boardCategory;
 
     @Builder
-    public BoardUpdateDto (String title, String content, BoardCategory boardCategory){
+    public BoardUpdateDto (String title, String content, String boardCategory){
          this.title = title;
          this.content = content;
          this.boardCategory = boardCategory;
