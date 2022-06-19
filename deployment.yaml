@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: croffle
+  name: croffle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: croffle
+  template:
+    metadata:
+      labels:
+        app: croffle
+    spec:
+      containers:
+        - image: juu924/croffle:latest
+          name: croffle
+          resources: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: croffle
+  name: croffle
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: croffle
+  type: LoadBalancer
