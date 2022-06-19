@@ -13,13 +13,13 @@ public class BoardSearchDto {
     private String nickName;
     private String content;
     private LocalDateTime modifiedDate;
-    private String category;
+    private String boardCategory;
 
 
     public BoardSearchDto(Board board) {
         this.title = board.getTitle();
         this.content = board.getContent();
-        this.category = board.getBoardCategory();
+        this.boardCategory = board.getBoardCategory();
         this.modifiedDate = board.getModifiedDate();
     }
 
