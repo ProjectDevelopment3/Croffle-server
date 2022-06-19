@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import java.util.Collections;
 
 @RestController
@@ -30,6 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/nickname/verify")
+    @PermitAll
     public Response nicknameCheck(@RequestBody NickNameRequestDto nicknameDto) {
         if (userService.nicknameVerify(nicknameDto.getNickname())) {
             return Response.builder()
