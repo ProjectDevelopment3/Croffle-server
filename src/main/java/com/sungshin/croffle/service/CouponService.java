@@ -36,7 +36,8 @@ public class CouponService {
                     .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
             if (entity.getUserId() == userId) {
                 return false;
-            }
+            } else if (!entity.getExpiredDate().isAfter(LocalDateTime.now()))
+                return false;
             couponRepository.delete(entity);
         } catch (IllegalArgumentException e) {
             return false;
