@@ -30,7 +30,7 @@ pipeline {
         stage('Build image'){
             steps {
                 script {
-                    app = docker.build("juu924/croffle")
+                    app = docker.build("juu924/croffle", "--no-cache .")
                 }
             }
         }
