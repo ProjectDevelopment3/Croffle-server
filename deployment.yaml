@@ -18,6 +18,7 @@ spec:
     spec:
       containers:
         - image: juu924/croffle:latest
+          imagePullPolicy: Always
           name: croffle
           resources: {}
 ---
