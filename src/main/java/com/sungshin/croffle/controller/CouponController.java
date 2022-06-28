@@ -20,7 +20,7 @@ public class CouponController {
     private final CouponService couponService;
 
     @GetMapping("/coupons")
-    @PreAuthorize("hasRole('ROLE_USER')")
+//    @PreAuthorize("hasRole('ROLE_USER')")
     public Response<CouponListResponseDto> couponList(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Response.<CouponListResponseDto>builder()
@@ -31,7 +31,7 @@ public class CouponController {
     }
 
     @DeleteMapping("/coupon/use")
-    @PreAuthorize("hasRole('ROLE_USER')")
+//    @PreAuthorize("hasRole('ROLE_USER')")
     public Response couponUse(Authentication authentication, @RequestParam Long couponId) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         if (!couponService.useCoupon(userPrincipal.getId(), couponId)) {

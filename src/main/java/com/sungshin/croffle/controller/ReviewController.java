@@ -19,7 +19,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/review")
-    @PreAuthorize("hasRole('ROLE_USER')")
+//    @PreAuthorize("hasRole('ROLE_USER')")
     public Response writeReview(Authentication authentication,@RequestBody ReviewRequestDto reviewRequestDto){
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         reviewService.saveReview(reviewRequestDto, userPrincipal.getId());

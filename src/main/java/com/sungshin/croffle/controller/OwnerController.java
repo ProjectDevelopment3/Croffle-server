@@ -25,7 +25,7 @@ public class OwnerController {
 
     //사장님 서비스 가게 정보 조회
     @GetMapping("/owner/cafe")
-    @PreAuthorize("hasRole('ROLE_OWNER')")
+//    @PreAuthorize("hasRole('ROLE_OWNER')")
     public Response getCafeInfo(Authentication authentication) {
         //session에 있는 userId를 넘겨주고
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -41,7 +41,7 @@ public class OwnerController {
 
     //사장님 서비스 가게 정보 수정
     @PutMapping("/owner/cafe/{id}")
-    @PreAuthorize("hasRole('ROLE_OWNER')")
+//    @PreAuthorize("hasRole('ROLE_OWNER')")
     public Response updateInfo(@PathVariable Long cafeId, @RequestBody UpdateInfoDto updateInfoDto) {
         ownerService.updateInfo(cafeId, updateInfoDto);
         return Response.builder()
@@ -52,7 +52,7 @@ public class OwnerController {
 
     //사장님 서비스 메뉴 조회
     @GetMapping("/owner/menus")
-    @PreAuthorize("hasRole('ROLE_OWNER')")
+//    @PreAuthorize("hasRole('ROLE_OWNER')")
     public Response<SearchMenuDto> getCafeMenu(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Response.<SearchMenuDto>builder()
@@ -64,7 +64,7 @@ public class OwnerController {
 
     //사장님 서비스 메뉴 추가
     @PostMapping("/owner/menu")
-    @PreAuthorize("hasRole('ROLE_OWNER')")
+//    @PreAuthorize("hasRole('ROLE_OWNER')")
     public Response addMenu(Authentication authentication, @RequestBody CreateMenuDto createMenuDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         menuService.addMenu(createMenuDto);
@@ -76,7 +76,7 @@ public class OwnerController {
 
     //사징님 서비스 메뉴 수정
     @PutMapping("/owner/menu/{id}")
-    @PreAuthorize("hasRole('ROLE_OWNER')")
+//    @PreAuthorize("hasRole('ROLE_OWNER')")
     public Response updateMenu(Authentication authentication, @PathVariable Long id, @RequestBody UpdateMenuDto menuDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         menuService.updateMenu(id, userPrincipal.getId(), menuDto);
@@ -87,7 +87,7 @@ public class OwnerController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+//    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/owner/verify")
     public Response checkedOwner(Authentication authentication, @RequestBody OwnerCheckRequestDto checkRequestDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -106,7 +106,7 @@ public class OwnerController {
 
     //사장님 서비스 회원 조회
     @PostMapping("/owner/find-user")
-    @PreAuthorize("hasRole('ROLE_OWNER')")
+//    @PreAuthorize("hasRole('ROLE_OWNER')")
     public Response checkUser(@RequestBody StampRequestDto stampRequestDto) {
         if (ownerService.searchNum(stampRequestDto) < 0L) {
             return Response.builder()

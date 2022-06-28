@@ -24,7 +24,7 @@ public class StampController {
     private final OwnerService ownerService;
 
     @GetMapping("/stamps")
-    @PreAuthorize("hasRole('ROLE_USER')")
+//    @PreAuthorize("hasRole('ROLE_USER')")
     public Response<StampListDto> userStampList(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         Long userId = userPrincipal.getId();
@@ -36,7 +36,7 @@ public class StampController {
     }
 
     @PostMapping("/owner/stamp")
-    @PreAuthorize("hasRole('ROLE_OWNER')")
+//    @PreAuthorize("hasRole('ROLE_OWNER')")
     public Response addStamp(@RequestBody AddStampRequestDto stampRequestDto,
                              Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();

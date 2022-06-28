@@ -21,7 +21,7 @@ public class ReportController {
     private final MenuService menuService;
 
     @PostMapping("/report/info")
-    @PreAuthorize("hasRole('ROLE_USER')")
+//    @PreAuthorize("hasRole('ROLE_USER')")
     public Response info(Authentication authentication,
                          @RequestBody InfoReportDto reportDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -33,7 +33,7 @@ public class ReportController {
     }
 
     @PostMapping("/report/cafe")
-    @PreAuthorize("hasRole('ROLE_USER')")
+//    @PreAuthorize("hasRole('ROLE_USER')")
     public Response cafe(Authentication authentication, @RequestBody ReportCafeDto reportCafeDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         boolean diff = reportService.diffName(reportCafeDto.getCafeName());
@@ -79,7 +79,7 @@ public class ReportController {
 
 
     @PostMapping("/report/menu")
-    @PreAuthorize("hasRole('ROLE_USER')")
+//    @PreAuthorize("hasRole('ROLE_USER')")
     public Response menu(Authentication authentication,
                          @RequestBody ReportCafeDto reportCafeDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();

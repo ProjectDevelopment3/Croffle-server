@@ -20,7 +20,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/user/me")
-    @PreAuthorize("hasRole('ROLE_USER')")
+//    @PreAuthorize("hasRole('ROLE_USER')")
     public Response<UserDto> getCurrentUser(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Response.<UserDto>builder()
@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @PutMapping("/nickname")
-    @PreAuthorize("hasRole('ROLE_USER')")
+//    @PreAuthorize("hasRole('ROLE_USER')")
     public Response nicknameEdit(Authentication authentication, @RequestBody NickNameRequestDto nicknameDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         String changedNickname = userService.nicknameEdit(userPrincipal.getId(), nicknameDto.getNickname()).getNickname();

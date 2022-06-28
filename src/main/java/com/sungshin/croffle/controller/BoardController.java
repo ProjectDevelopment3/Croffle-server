@@ -20,7 +20,6 @@ public class BoardController {
 
     //게시물 작성
     @PostMapping("/board")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public Response write(Authentication authentication,
                           @RequestBody BoardRequestDto boardRequestDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -58,7 +57,6 @@ public class BoardController {
 
     //게시물 수정
     @PutMapping("/board/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public Response<BoardSearchDto> update(Authentication authentication,
                                             @PathVariable Long id, @RequestBody BoardUpdateDto boardUpdateDto) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -76,7 +74,6 @@ public class BoardController {
 
     //게시물 삭제
     @DeleteMapping("/board/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public Response delete(@PathVariable Long id, Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         if (!boardService.deletePost(id, userPrincipal.getId())) {
