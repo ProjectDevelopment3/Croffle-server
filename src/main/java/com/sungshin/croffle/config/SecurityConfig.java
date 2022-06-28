@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final OAuthAuthenticationSuccessHandler oAuthAuthenticationSuccessHandler;
     private final OAuthAuthenticationFailureHandler oAuthAuthenticationFailureHandler;
 
+    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 //        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://34.64.173.239"));
