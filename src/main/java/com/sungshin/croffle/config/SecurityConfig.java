@@ -113,13 +113,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                    .antMatchers("/review", "/report/**", "/likes/**", "/user/**",
 //                        "/nickname", "/stamps", "/coupons", "/board/**", "/owner/verify")
 //                        .hasAnyRole(Role.USER.name(), Role.OWNER.name(), Role.ADMIN.name())
-                    .antMatchers("/", "/boards", "/cafes", "/cafe", "/cafe/**",
-                            "/cafe/recommend", "/review/list", "/nickname/verify", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs")
-                    .permitAll()
+
                     .antMatchers("/board", "/board/**", "/likes", "/like", "/like/**", "/coupons",
                             "/coupon/use", "/owner/verify", "/owner/find-user", "/report/info", "/report/cafe", "/report/menu",
                             "/review", "/review/**", "/stamps", "/user/me", "/nickname")
                     .hasAnyRole(Role.USER.name(), Role.OWNER.name(), Role.ADMIN.name())
+                .antMatchers("/", "/boards", "/cafes", "/cafe", "/cafe/**",
+                        "/cafe/recommend", "/review/list", "/nickname/verify", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs")
+                .permitAll()
 //                .anyRequest().authenticated()
                 .and()
 //                    .logout()
