@@ -20,7 +20,7 @@ public class CafeController {
     private final CafeService cafeService;
 
     @GetMapping("/cafes")
-    @PermitAll
+//    @PermitAll
     public Response<CafeListDto> findAllCafe() {
         System.out.println("cafes");
         List<CafeListDto> cafes = cafeService.findCafes();
@@ -32,7 +32,7 @@ public class CafeController {
     }
 
     @GetMapping("/cafe/search")
-    @PermitAll
+//    @PermitAll
     public Response<CafeListDto> findByCafeName(@RequestParam String name) {
         List<CafeListDto> list = cafeService.findByCafeName(name);
         if (list.size() == 0) {
@@ -50,7 +50,7 @@ public class CafeController {
     }
 
     @GetMapping("/cafe/{id}")
-    @PermitAll
+//    @PermitAll
     public Response<CafeDetailDto> cafedetails(@PathVariable Long id) {
         return Response.<CafeDetailDto>builder()
                 .code("200")
@@ -61,7 +61,7 @@ public class CafeController {
 
     // 카페 추천 기능
     @GetMapping("/cafe/recommend")
-    @PermitAll
+//    @PermitAll
     public Response<CafeRecommendWrapper> recommendCafe(@RequestParam String filter) {
         if (!filter.equals("liked") && !filter.equals("review")) {
             return Response.<CafeRecommendWrapper>builder()

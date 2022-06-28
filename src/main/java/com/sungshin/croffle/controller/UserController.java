@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/nickname/verify")
-    @PermitAll
+//    @PermitAll
     public Response nicknameCheck(@RequestBody NickNameRequestDto nicknameDto) {
         if (userService.nicknameVerify(nicknameDto.getNickname())) {
             return Response.builder()

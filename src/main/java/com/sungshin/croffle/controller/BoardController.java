@@ -33,7 +33,7 @@ public class BoardController {
 
     //게시글 개별 조회
     @GetMapping("/board/{id}")
-    @PermitAll
+//    @PermitAll
     public Response<BoardSearchWrapper> findById(@PathVariable Long id) {
         List<BoardSearchWrapper> list = new ArrayList<BoardSearchWrapper>();
         list.add(boardService.getPost(id));
@@ -46,7 +46,7 @@ public class BoardController {
 
     //게시판 목록 조회
     @GetMapping("/boards")
-    @PermitAll
+//    @PermitAll
     public Response<BoardListWrapper> postList() {
         return Response.<BoardListWrapper>builder()
                 .code("200")

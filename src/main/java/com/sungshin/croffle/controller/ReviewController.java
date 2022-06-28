@@ -30,7 +30,7 @@ public class ReviewController {
     }
 
     @GetMapping("/review/{cafe_id}")
-    @PermitAll
+//    @PermitAll
     public Response<SearchReviewDto> searchReview(@PathVariable Long cafe_id){
         List<SearchReviewDto> reviewList = reviewService.searchReview(cafe_id);
        

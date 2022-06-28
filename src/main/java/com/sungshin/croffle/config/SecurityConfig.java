@@ -42,7 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://34.64.186.163");
         config.addAllowedOrigin("http://localhost:3000");
-        config.addAllowedHeader("*");
+        config.addAllowedHeader("Authorization");
+        config.addAllowedHeader("Cache-Control");
+        config.addAllowedHeader("Content-Type");
         config.addAllowedMethod("OPTIONS");
         config.addAllowedMethod("HEAD");
         config.addAllowedMethod("GET");
