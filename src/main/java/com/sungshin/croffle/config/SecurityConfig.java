@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
@@ -35,20 +36,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final OAuthAuthenticationFailureHandler oAuthAuthenticationFailureHandler;
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-//        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://34.64.173.239"));
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://34.64.186.163", "http://34.64.186.163/", "http://34.64.186.163:3000"));
-        corsConfiguration.setAllowedMethods(Arrays.asList("HEAD", "OPTIONS", "GET",
-                "POST", "PUT", "DELETE"));
-//        corsConfiguration.setAllowedMethods(Arrays.asList("*"));
-        corsConfiguration.setMaxAge(3600L);
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+    public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return source;
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://34.64.186.163");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("HEAD");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("DELETE");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration corsConfiguration = new CorsConfiguration();
+////        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://34.64.173.239"));
+//        corsConfiguration.setAllowedOrigins(Arrays.asList("http://34.64.186.163", "http://34.64.186.163/", "http://34.64.186.163:3000"));
+//        corsConfiguration.setAllowedMethods(Arrays.asList("HEAD", "OPTIONS", "GET",
+//                "POST", "PUT", "DELETE"));
+////        corsConfiguration.setAllowedMethods(Arrays.asList("*"));
+//        corsConfiguration.setMaxAge(3600L);
+//        corsConfiguration.setAllowCredentials(true);
+//        corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", corsConfiguration);
+//        return source;
+//    }
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
@@ -86,7 +103,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
-                .cors().configurationSource(corsConfigurationSource())
+                .cors()//.configurationSource(corsConfigurationSource())
                 .and()
                 .authorizeRequests()
                     .antMatchers("/owner/**").hasAnyRole(Role.OWNER.name(), Role.ADMIN.name())
