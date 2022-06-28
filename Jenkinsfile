@@ -30,7 +30,7 @@ pipeline {
         stage('Build image'){
             steps {
                 script {
-                    app = docker.build("juu924/croffle", "--no-cache .")
+                    app = docker.build("juu924/croffle:${env.BUILD_ID}", "--no-cache .")
                 }
             }
         }
@@ -39,6 +39,7 @@ pipeline {
                 script{
                     docker.withRegistry('https://registry.hub.docker.com','docker-juu924'){
                         app.push("latest")
+                        app.push("${env.BUILD_ID}")
                     }
                 }
             }
@@ -48,6 +49,7 @@ pipeline {
                 branch 'main'
             }
             steps{
+                sh "sed -i 's/croffle:latest/croffle:${env.BUILD_ID}/g' deployment.yaml"
                 step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
             }
         }
