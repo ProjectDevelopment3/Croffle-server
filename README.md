@@ -6,6 +6,14 @@
 크로플을 판매하는 카페를 모아볼 수 있는 서비스입니다.
 게시판을 통해 자신만의 크로플 레시피를 공유할 수 있고, 카페별로 리뷰를 작성할 수 있습니다.
 
+# ERD
+
+<img width="880" alt="스크린샷 2024-02-01 오후 3 29 19" src="https://github.com/ProjectDevelopment3/Croffle-server/assets/46748334/2f7528e5-8b23-4785-ac54-2912509df294">
+
+# 발표 자료
+
+- [최종 발표 자료](https://www.miricanvas.com/ko/v/117ektv)
+
 # 사용 기술
 
 ### Server
